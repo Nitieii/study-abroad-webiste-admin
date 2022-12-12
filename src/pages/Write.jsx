@@ -5,6 +5,8 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 import ImageResize from "quill-image-resize-module-react";
+import EditIcon from "../img/edit.png";
+import DeleteIcon from "../img/delete.png";
 
 ReactQuill.Quill.register("modules/imageResize", ImageResize);
 
@@ -18,6 +20,9 @@ const Write = () => {
   const [title, setTitle] = useState(state?.desc || "");
   const [file, setFile] = useState(null);
   const [cat, setCat] = useState(state?.cat || "");
+  const [isEdit, setIsEdit] = React.useState(false);
+  const initialValues = { title: "", content: "" };
+  const [formValues, setFormValues] = useState(initialValues);
 
   const navigate = useNavigate();
 
@@ -36,6 +41,8 @@ const Write = () => {
 
   const handleChange = (e) => {
     setFile(URL.createObjectURL(e.target.files[0]));
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
   };
 
   const handleClick = async (e) => {
@@ -65,6 +72,20 @@ const Write = () => {
     }
   };
 
+  const handleEdit = () => {
+    setIsEdit(!isEdit);
+  };
+  console.log(isEdit);
+
+  const handleSubmit = (e) => {
+    
+  };
+
+
+  const handleDeleteImage = () => {
+    setFile((pre) => pre === "");
+  };
+
   // Disable spellcheck as component is mounted
   React.useEffect(() => {
     ref.current?.editor.root.setAttribute("spellcheck", "false");
@@ -88,14 +109,17 @@ const Write = () => {
         <input
           type="text"
           placeholder="Tiêu đề bài viết"
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={handleChange}
+          value={formValues.title}
+          // required={isEdit}
+          // disabled={!isEdit}
         />
         <div className="editorContainer">
           <ReactQuill
             ref={ref}
             className="editor"
             theme="snow"
-            value={value}
+            value={formValues.content}
             onChange={setValue}
             modules={{
               toolbar: toolbarOptions,
@@ -104,12 +128,26 @@ const Write = () => {
                 modules: ["Resize", "DisplaySize"],
               },
             }}
+            // required={isEdit}
+            // disabled={!isEdit}
           />
         </div>
       </div>
       <div className="menu">
         <div className="item">
-          <h1>Đăng tải</h1>
+          <div style={{ display: "flex" }}>
+            {" "}
+            <h1>Đăng tải</h1>
+            <div onClick={() => handleDeleteImage()}>
+              {" "}
+              <img
+                style={{ width: 22, marginLeft: "160px" }}
+                src={DeleteIcon}
+                alt="delete"
+              />
+            </div>
+          </div>
+
           {/* <span>
             <b>Status: </b> Draft
           </span> */}
@@ -124,6 +162,7 @@ const Write = () => {
                 id="file"
                 accept="image/*"
                 name=""
+                value=""
                 onChange={handleChange}
               />
 
@@ -134,10 +173,15 @@ const Write = () => {
           ) : (
             <img src={file} style={{ width: 200, marginBottom: 20 }} />
           )}
+          <div style={{ display: "flex" }}>
+            <div className="buttons">
+              {/* <button>Save as a draft</button> */}
+              <button onClick={handleClick}>Đăng bài</button>
+            </div>
 
-          <div className="buttons">
-            {/* <button>Save as a draft</button> */}
-            <button onClick={handleClick}>Đăng bài</button>
+            {/* <div style={{ marginLeft: "5px" }} onClick={() => handleEdit()}>
+              <img src={EditIcon} alt="edit" style={{ width: 22 }} />
+            </div> */}
           </div>
         </div>
         <div className="item">

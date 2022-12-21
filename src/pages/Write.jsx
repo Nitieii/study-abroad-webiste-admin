@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ImageResize from "quill-image-resize-module-react";
 import EditIcon from "../img/edit.png";
 import DeleteIcon from "../img/delete.png";
@@ -11,6 +11,9 @@ import ReactDropdown from "react-dropdown";
 import "../style/style.css";
 import "react-dropdown/style.css";
 import LoadingScreen from "../components/LoadingScreen";
+// import { useFormik } from "formik";
+import * as yup from "yup";
+import { Formik, useFormik, FormikProvider, Form } from "formik";
 
 ReactQuill.Quill.register("modules/imageResize", ImageResize);
 
@@ -19,55 +22,83 @@ Font.whitelist = ["roboto"];
 
 ReactQuill.Quill.register(Font, true);
 
-const initialize = {
-  title: "",
-  content: "",
-};
-
 const Write = () => {
-  const state = useLocation().state;
-  const [value, setValue] = useState(state?.title || "");
-  const [title, setTitle] = useState(state?.desc || "");
+  const [value, setValue] = useState("");
+  const [title, setTitle] = useState("");
   const [file, setFile] = useState(null);
-  const [cat, setCat] = useState(state?.cat || "thong-tin-du-hoc");
+  const [uploadFile, setUploadFile] = useState(null);
+
+  const [cat, setCat] = useState("thong-tin-du-hoc");
 
   const [isEdit, setIsEdit] = React.useState(false);
-  const initialValues = initialize;
-  const [formValues, setFormValues] = useState(initialValues);
-  const { handleCreatePost, post, isLoading } = usePost();
-  const [dropdownOption, setDropdown] = useState("Du học Hàn Quốc");
+  // const initialValues = initialize;
+  // const [formValues, setFormValues] = useState(initialValues);
+  const { handleCreatePost, post, isLoading, handleEditPost } = usePost();
+  const [dropdownOption, setDropdown] = useState("");
   const DropdownOptions = [
-    "Du học Hàn Quốc",
-    "Du học Đài Loan",
-    "Du hoc Trung Quốc",
-    "Du hoc Úc",
-    "Du hoc Đức",
+    { value: "du-hoc-han-quoc", label: "Du học Hàn Quốc" },
+    { value: "du-hoc-dai-loan", label: "Du học Đài Loan" },
+    { value: "du-hoc-trung-quoc", label: "Du hoc Trung Quốc" },
+    { value: "du-hoc-uc", label: "Du hoc Úc" },
+    { value: "du-hoc-duc", label: "Du hoc Đức" },
   ];
   const defalutValueDropdown = DropdownOptions[0];
 
-  const navigate = useNavigate();
-
   const ref = useRef();
+  const { id } = useParams();
+  // const currentPost = post.find((post) => post._id === parseInt(id));
+  const currentPost = post.find((item) => item._id === id);
+  console.log(currentPost);
 
-  const formData = new FormData();
-  formData.append("title", title);
-  formData.append("description", value);
-  formData.append("category", cat);
-  formData.append("type", dropdownOption);
+  //Schema formik
+  const schema = yup.object().shape({
+    title: yup.string().required("Bắt buộc"),
+    description: yup.string().required("Bắt buộc"),
+    value: yup.string().required("Bắt buộc"),
+  });
 
-  const editorContainerRef = React.useRef();
+  const initialize = {
+    title: "",
+    value: "",
+  };
+
+  const formik = useFormik({
+    initialValues: initialize,
+    validationSchema: schema,
+    onSubmit: async (values, { setErrors }) => {
+      console.log(values.title, values.value, values.cat);
+    },
+  });
 
   const handleChange = (e) => {
-    console.log(e.target.files[0]);
+    if (currentPost) {
+      setFile(currentPost.thumbnail_url);
+    }
+
     setFile(URL.createObjectURL(e.target.files[0]));
+    setUploadFile(e.target.files[0]);
   };
 
   const handleClick = async (e) => {
     e.preventDefault();
-    formData.append("file", file);
-
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", value);
+    formData.append("category", cat);
+    formData.append("type", dropdownOption);
+    formData.append("file", uploadFile);
     try {
-      handleCreatePost(formData);
+      if (currentPost) {
+        handleEditPost(currentPost._id, formData);
+        //     formData.append("title", currentPost.title);
+        //     formData.append("description", currentPost.description);
+        //     formData.append("category", currentPost.category);
+        //     formData.append("type", CurrentPost.type);
+        //     formData.append("file", uploadFile)
+      } else {
+        handleCreatePost(formData);
+      }
+
       // navigate("/");
     } catch (err) {
       console.log(err);
@@ -85,6 +116,15 @@ const Write = () => {
   // Disable spellcheck as component is mounted
   React.useEffect(() => {
     ref.current?.editor.root.setAttribute("spellcheck", "false");
+
+    if (currentPost) {
+      setFile(currentPost?.thumbnail_url);
+      setTitle(currentPost?.title);
+      setValue(currentPost?.description);
+      if (currentPost.category === "thong-tin-du-hoc") {
+        setDropdown(currentPost?.type);
+      }
+    }
   }, []);
 
   const toolbarOptions = [
@@ -102,141 +142,135 @@ const Write = () => {
   return (
     <>
       {isLoading ? <LoadingScreen /> : null}
-      <div className="add">
-        <div className="content">
-          <input
-            type="text"
-            placeholder="Tiêu đề bài viết"
-            // value={value}
-            onChange={(e) => setTitle(e.target.value)}
-            // required={isEdit}
-            // disabled={!isEdit}N
-          />
-          {initialValues === "" ? <Errormessage /> : null}
-          <div className="editorContainer">
-            <ReactQuill
-              ref={editorContainerRef}
-              className="editor"
-              name="editor"
-              theme="snow"
-              value={value}
-              onChange={setValue}
-              // onChange={(e) => setTitle(e.target.formValues.content)}
-              modules={{
-                toolbar: toolbarOptions,
-                imageResize: {
-                  parchment: ReactQuill.Quill.import("parchment"),
-                  modules: ["Resize", "DisplaySize"],
-                },
-              }}
-              // required={isEdit}
-              // disabled={!isEdit}
+      <form>
+        <div className="add">
+          <div className="content">
+            <input
+              type="text"
+              placeholder="Tiêu đề bài viết"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
-          </div>
-          {initialValues === "" ? <Errormessage /> : null}
-        </div>
-        <div className="menu">
-          <div className="item">
-            <div style={{ display: "flex" }}>
-              {" "}
-              <h1>Đăng tải</h1>
-              {file ? (
-                <div onClick={() => handleDeleteImage()}>
-                  {" "}
-                  <img
-                    style={{ width: 22, marginLeft: "160px" }}
-                    src={DeleteIcon}
-                    alt="delete"
-                  />
-                </div>
-              ) : null}
+            {title === "" ? <Errormessage /> : null}
+            <div className="editorContainer">
+              <ReactQuill
+                className="editor"
+                name="editor"
+                theme="snow"
+                value={value}
+                onChange={setValue}
+                modules={{
+                  toolbar: toolbarOptions,
+                  imageResize: {
+                    parchment: ReactQuill.Quill.import("parchment"),
+                    modules: ["Resize", "DisplaySize"],
+                  },
+                }}
+              />
             </div>
-
-            {/* <span>
-            <b>Status: </b> Draft
-          </span> */}
-            {/* <span>
-            <b>Visibility: </b> Public
-          </span> */}
-            {!file ? (
-              <>
-                <input
-                  style={{ display: "none" }}
-                  type="file"
-                  id="file"
-                  accept="image/*"
-                  name=""
-                  value=""
-                  onChange={handleChange}
-                />
-
-                <label className="file" htmlFor="file">
-                  Đăng tải ảnh thumbnail
-                </label>
-              </>
-            ) : (
-              <img src={file} style={{ width: 200, marginBottom: 20 }} />
-            )}
-            <div style={{ display: "flex" }}>
-              <div className="buttons">
-                {/* <button>Save as a draft</button> */}
-                <button onClick={handleClick}>Đăng bài</button>
+            {value === "" ? <Errormessage /> : null}
+          </div>
+          <div className="menu">
+            <div className="item WrapThumbnail">
+              <div style={{ display: "flex" }}>
+                {" "}
+                <h1>Đăng tải</h1>
+                {file || currentPost?.thumbnail_url ? (
+                  <div onClick={() => handleDeleteImage()}>
+                    <img
+                      style={{ width: 22, marginLeft: "160px" }}
+                      src={DeleteIcon}
+                      alt="delete"
+                    />
+                  </div>
+                ) : null}
               </div>
 
-              {/* <div style={{ marginLeft: "5px" }} onClick={() => handleEdit()}>
-              <img src={EditIcon} alt="edit" style={{ width: 22 }} />
-            </div> */}
+              {!file ? (
+                <>
+                  <input
+                    style={{ display: "none" }}
+                    type="file"
+                    id="file"
+                    accept="image/*"
+                    name=""
+                    value=""
+                    onChange={handleChange}
+                    required
+                  />
+
+                  <label className="file" htmlFor="file">
+                    Đăng tải ảnh thumbnail
+                  </label>
+                  {/* {value === "" ? <Errormessage /> : null} */}
+                </>
+              ) : (
+                <img src={file} style={{ width: 200, marginBottom: 20 }} />
+              )}
+              <div style={{ display: "flex" }}>
+                <div className="buttons">
+                  <button onClick={handleClick}>Đăng bài</button>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="item">
-            <h1>Đề mục</h1>
-            <div className="cat">
-              <div className="dropdown">
-                <div>
+            <div className="item">
+              <h1>Đề mục</h1>
+              <div className="WrapCat">
+                <div className="cat">
+                  <div className="dropdown">
+                    <div>
+                      <input
+                        type="radio"
+                        checked={cat === "thong-tin-du-hoc"}
+                        name="cat"
+                        value="thong-tin-du-hoc"
+                        id="art"
+                        onChange={(e) => setCat(e.target.value)}
+                      />
+                      <label htmlFor="art">Thông tin du học</label>
+                    </div>
+
+                    <ReactDropdown
+                      className="dropdownOptions"
+                      options={DropdownOptions}
+                      value={dropdownOption}
+                      onChange={(e) => setDropdown(e.value)}
+                    />
+                  </div>
+                </div>
+                <div className="cat">
                   <input
                     type="radio"
-                    checked={cat === "thong-tin-du-hoc"}
+                    checked={cat === "tin-tuc"}
                     name="cat"
-                    value="thong-tin-du-hoc"
-                    id="art"
-                    onChange={(e) => setCat(e.target.value)}
+                    value="tin-tuc"
+                    id="science"
+                    onChange={(e) => {
+                      setCat(e.target.value);
+                      setDropdown("");
+                    }}
                   />
-                  <label htmlFor="art">Thông tin du học</label>
+                  <label htmlFor="science">Tin tức</label>
                 </div>
-
-                <ReactDropdown
-                  className="dropdownOptions"
-                  options={DropdownOptions}
-                  value={dropdownOption}
-                  onChange={setDropdown}
-                />
+                <div className="cat">
+                  <input
+                    type="radio"
+                    checked={cat === "van-hoa-cac-nuoc"}
+                    name="cat"
+                    value="van-hoa-cac-nuoc"
+                    id="technology"
+                    onChange={(e) => {
+                      setCat(e.target.value);
+                      setDropdown("");
+                    }}
+                  />
+                  <label htmlFor="technology">Văn hoá các nước</label>
+                </div>
               </div>
-            </div>
-            <div className="cat">
-              <input
-                type="radio"
-                checked={cat === "tin-tuc"}
-                name="cat"
-                value="tin-tuc"
-                id="science"
-                onChange={(e) => setCat(e.target.value)}
-              />
-              <label htmlFor="science">Tin tức</label>
-            </div>
-            <div className="cat">
-              <input
-                type="radio"
-                checked={cat === "van-hoa-cac-nuoc"}
-                name="cat"
-                value="van-hoa-cac-nuoc"
-                id="technology"
-                onChange={(e) => setCat(e.target.value)}
-              />
-              <label htmlFor="technology">Văn hoá các nước</label>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </>
   );
 };

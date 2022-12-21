@@ -4,7 +4,7 @@ $lightGreen: #b9e7e7;
   display: flex;
   justify-content: center;
   .container {
-    width: 1024px;
+    width: 1140px;
 
     .link {
       text-decoration: none;
@@ -337,18 +337,31 @@ $lightGreen: #b9e7e7;
         flex-direction: column;
         gap: 20px;
 
+        .WrapThumbnail{
+          justify-content: space-between !important;
+        }
+
         .item {
           border: 1px solid lightgray;
           padding: 10px;
-          flex: 1;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
           font-size: 12px;
           color: #555;
+          height: 45%;
+          
+          
+
+          .WrapCat {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 55%;
+          }
 
           h1 {
             font-size: 20px;
+            margin-bottom: 20px;
           }
 
           .file {
@@ -385,5 +398,7 @@ $lightGreen: #b9e7e7;
         }
       }
     }
+    //Information
+
   }
 }

@@ -1,24 +1,42 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { vi } from "date-fns/locale";
 import "react-tabs/style/react-tabs.css";
-// import { usePathName } from "../hooks";
 import useNews from "../hooks/useNews";
 import LoadingScreen from "../components/LoadingScreen";
 import "../style/style.css";
+import Edit from "../img/edit.png";
+import DeleteIcon from "../img/delete.png";
+import { confirmAlert } from "react-confirm-alert";
 
 const News = () => {
-  const { news, handleGetNews, isLoading } = useNews();
+  const { news, handleGetNews, isLoading, handleDeleteNews, totalPage } = useNews();
   const [currentPage, setCurrentPage] = useState(1);
   const cat = "tin-tuc";
   useEffect(() => {
     handleGetNews(currentPage, cat);
   }, [currentPage]);
+  // console.log(totalPage)
+  const handleAlertDeleteNews = (id) => {
+    confirmAlert({
+      title: "Bạn có chắc muốn xóa bài?",
+      buttons: [
+        {
+          label: "Đồng ý",
+          onClick: () => handleDeleteNews(id),
+        },
+        {
+          label: "Không",
+        },
+      ],
+    });
+  };
 
   return (
+
     <main id="main" data-aos="fade-up">
+      {isLoading ? <LoadingScreen /> : null}
       <section className="breadcrumbs">
         <div className="container">
           <div className="d-flex justify-content-between align-items-center">
@@ -43,7 +61,7 @@ const News = () => {
                 style={{
                   borderBottom: "1px solid #e6e6e6",
                   marginTop: 20,
-                  paddingBottom: 1,
+                  paddingBottom: 5,
                   marginBottom: 10,
                 }}
               >
@@ -75,11 +93,11 @@ const News = () => {
                   </Link>
 
                   <p
-                    
+
                     style={{
                       fontSize: 12,
                       marginBottom: 10,
-                      
+                      marginTop: 5
                     }}
                   >
                     🗓️{" "}
@@ -98,12 +116,32 @@ const News = () => {
                     dangerouslySetInnerHTML={{ __html: item?.description }}
                   ></p>
                 </div>
+                <div className="EditNews"
+                  style={{display:'flex'}}
+                >
+                  <img
+                    src={Edit}
+                    alt="edit"
+                    style={{ height: 25, marginRight: 5 }}
+                  />
+                  <div
+                    onClick={() =>
+                      handleAlertDeleteNews(item?._id)
+                    }
+                  >
+                    <img
+                      src={DeleteIcon}
+                      alt="delete"
+                      style={{ height: 25 }}
+                    />
+                  </div>
+                </div>
               </div>
             );
           })}
 
           {/* Load more button */}
-          <div className="row ">
+          {currentPage < totalPage ? <div className="row ">
             <div className="col-md-12 d-flex align-items-center justify-content-center">
               <button
                 className="btn btn-primary"
@@ -114,11 +152,13 @@ const News = () => {
                   paddingLeft: 30,
                   paddingRight: 30,
                 }}
+                onClick={()=>setCurrentPage(currentPage + 1)}
               >
                 Xem Thêm
               </button>
             </div>
-          </div>
+          </div> : null}
+          
         </div>
       </section>
     </main>

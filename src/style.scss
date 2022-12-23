@@ -3,13 +3,17 @@ $lightGreen: #b9e7e7;
 .app {
   display: flex;
   justify-content: center;
+  position: relative;
+
   .container {
-    width: 1140px;
+    width: 100%;
+    //1140px
 
     .link {
       text-decoration: none;
       color: inherit;
     }
+
     //LOGIN & REGISTER
 
     .auth {
@@ -64,16 +68,26 @@ $lightGreen: #b9e7e7;
     //NAVBAR
 
     .navbar {
+      background: #fff;
+      transition: all .5s;
+      z-index: 997;
+      height: 86px;
+      box-shadow: 0 2px 15px #0000001a;
+      position: relative;
+
       .container {
-        padding: 10px 0px;
+        width: 85%;
+        margin: 0 auto;
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         .logo {
           img {
             width: 120px;
           }
         }
+
         .links {
           display: flex;
           align-items: center;
@@ -109,16 +123,42 @@ $lightGreen: #b9e7e7;
       }
     }
 
+    #main {
+
+      .breadcrumbs {
+        .container {
+          width: 75%;
+          margin: 0 auto;
+        }
+      }
+
+      .inner-page {
+        width: 75%;
+        margin: 0 auto;
+        margin-bottom: 125px;
+      }
+    }
+
     //FOOTER
 
     footer {
+      position: absolute;
+      bottom: 0;
       margin-top: 100px;
       padding: 20px;
       background-color: lightgray;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       font-size: 12px;
+      width: 97.5%;
+      .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 95%;
+        margin: auto;
+      }
+
+
+
       img {
         height: 50px;
       }
@@ -220,6 +260,7 @@ $lightGreen: #b9e7e7;
           align-items: center;
           gap: 10px;
           font-size: 14px;
+
           img {
             width: 50px;
             height: 50px;
@@ -253,6 +294,7 @@ $lightGreen: #b9e7e7;
           line-height: 30px;
         }
       }
+
       .menu {
         flex: 2;
         display: flex;
@@ -300,6 +342,10 @@ $lightGreen: #b9e7e7;
     }
 
     //WRITE
+    form {
+      width: 79%;
+      margin: 0 auto;
+    }
 
     .add {
       margin-top: 20px;
@@ -319,7 +365,7 @@ $lightGreen: #b9e7e7;
 
         .editorContainer {
           height: 500px;
-          max-width: 750px;
+          width: 100%;
           overflow: scroll;
           border: 1px solid lightgray;
 
@@ -337,7 +383,7 @@ $lightGreen: #b9e7e7;
         flex-direction: column;
         gap: 20px;
 
-        .WrapThumbnail{
+        .WrapThumbnail {
           justify-content: space-between !important;
         }
 
@@ -349,8 +395,8 @@ $lightGreen: #b9e7e7;
           font-size: 12px;
           color: #555;
           height: 45%;
-          
-          
+
+
 
           .WrapCat {
             display: flex;
@@ -380,6 +426,7 @@ $lightGreen: #b9e7e7;
               border: 1px solid teal;
               padding: 3px 5px;
             }
+
             :last-child {
               cursor: pointer;
               color: white;
@@ -398,6 +445,7 @@ $lightGreen: #b9e7e7;
         }
       }
     }
+
     //Information
 
   }

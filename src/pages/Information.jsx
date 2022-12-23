@@ -53,14 +53,15 @@ const Information = () => {
     handleDeletePost,
     isLoading,
     type,
-    handleChangeSetType
+    handleChangeSetType,
+    totalPage
   } = usePost();
   const cat = "thong-tin-du-hoc";
   // const type = 'du-hoc-han-quoc'
   useEffect(() => {
     handleGetPost(currentPage, cat, type);
   }, [currentPage]);
-console.log(type)
+  console.log(type)
   const handleAlertDeletePost = (id) => {
     confirmAlert({
       title: "Bạn có chắc muốn xóa bài?",
@@ -142,7 +143,8 @@ console.log(type)
                                 className="row"
                                 style={{
                                   borderBottom: "1px solid #e6e6e6",
-                                  marginTop: 25,
+                                  marginTop: 20,
+                                  marginBottom:10,
                                   paddingBottom: 1,
                                   display: "flex",
                                   justifyContent: "space-between",
@@ -169,6 +171,7 @@ console.log(type)
                                         fontSize: 20,
                                         color: "black",
                                         fontWeight: 600,
+                                        textDecoration: 'none'
                                       }}
                                     >
                                       {item?.title}
@@ -178,6 +181,7 @@ console.log(type)
                                       style={{
                                         fontSize: 12,
                                         marginBottom: 10,
+                                        marginTop: 5
                                       }}
                                     >
                                       🗓️{" "}
@@ -221,7 +225,7 @@ console.log(type)
                                   >
                                     <img
                                       src={DeleteIcon}
-                                      alt="edit"
+                                      alt="delete"
                                       style={{ height: 25 }}
                                     />
                                   </div>
@@ -251,7 +255,7 @@ console.log(type)
               </Tabs>
 
               {/* Load more button */}
-              <div className="row ">
+              {currentPage < totalPage ? <div className="row ">
                 <div className="col-md-12 d-flex align-items-center justify-content-center">
                   <button
                     className="btn btn-primary"
@@ -267,7 +271,8 @@ console.log(type)
                     Xem Thêm
                   </button>
                 </div>
-              </div>
+              </div> : null}
+
             </div>
 
             {/* <Fanpage /> */}

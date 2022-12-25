@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   post: [],
   isLoading: false,
-  type: "du-hoc-han-quoc",
+  type: "du-hoc-dai-loan",
 };
 
 const slice = createSlice({

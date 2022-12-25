@@ -12,8 +12,8 @@ import Single from "./pages/Single";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Information from "./pages/Information";
-import News from "./pages/News"
-import "./style.scss" 
+import News from "./pages/News";
+import "./style.scss";
 
 const Layout = () => {
   return (
@@ -41,18 +41,16 @@ const router = createBrowserRouter([
       {
         path: "/write",
         element: <Write />,
-        children: [
-          {path: ':id' , element: <Write/>}
-        ]
+        children: [{ path: ":id", element: <Write /> }],
       },
       {
         path: "/thong-tin-du-hoc-sinh",
         element: <Information />,
       },
       {
-        path:"/tin-tuc",
-        element: <News/>
-      }
+        path: "/tin-tuc",
+        element: <News />,
+      },
     ],
   },
   {
@@ -68,9 +66,11 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div className="app">
-      <div className="container">
-        <RouterProvider router={router} />
-      </div>
+      {/* <NotistackProvider> */}
+        <div className="container">
+          <RouterProvider router={router} />
+        </div>
+      {/* </NotistackProvider> */}
     </div>
   );
 }

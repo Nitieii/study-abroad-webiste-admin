@@ -59,8 +59,9 @@ const Information = () => {
   // const type = 'du-hoc-han-quoc'
   useEffect(() => {
     handleGetPost(currentPage, cat, type);
-  }, [currentPage]);
-console.log(type)
+  }, [currentPage,type]);
+
+
   const handleAlertDeletePost = (id) => {
     confirmAlert({
       title: "Bạn có chắc muốn xóa bài?",
@@ -133,6 +134,8 @@ console.log(type)
                 {tabs &&
                   tabs.map((tab, index) => {
                     if (index === selectedIndex) {
+                      handleChangeSetType(tab.type)
+
                       return (
                         <TabPanel key={index}>
                           {post.map((item) => {

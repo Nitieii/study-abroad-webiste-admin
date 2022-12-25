@@ -11,9 +11,10 @@ import ReactDropdown from "react-dropdown";
 import "../style/style.css";
 import "react-dropdown/style.css";
 import LoadingScreen from "../components/LoadingScreen";
-// import { useFormik } from "formik";
-import * as yup from "yup";
-import { Formik, useFormik, FormikProvider, Form } from "formik";
+// // import { useFormik } from "formik";
+// import * as yup from "yup";
+// import { Formik, useFormik, FormikProvider, Form } from "formik";
+import useAlert from "../hooks/useAlert";
 
 ReactQuill.Quill.register("modules/imageResize", ImageResize);
 
@@ -27,13 +28,12 @@ const Write = () => {
   const [title, setTitle] = useState("");
   const [file, setFile] = useState(null);
   const [uploadFile, setUploadFile] = useState(null);
-
   const [cat, setCat] = useState("thong-tin-du-hoc");
-
-  const [isEdit, setIsEdit] = React.useState(false);
+  const [valid, setValid] = useState(false);
   // const initialValues = initialize;
   // const [formValues, setFormValues] = useState(initialValues);
   const { handleCreatePost, post, isLoading, handleEditPost } = usePost();
+  const { enqueueSnackbar } = useAlert();
   const [dropdownOption, setDropdown] = useState("");
   const DropdownOptions = [
     { value: "du-hoc-han-quoc", label: "Du học Hàn Quốc" },
@@ -46,29 +46,28 @@ const Write = () => {
 
   const ref = useRef();
   const { id } = useParams();
-  // const currentPost = post.find((post) => post._id === parseInt(id));
+
   const currentPost = post.find((item) => item._id === id);
-  console.log(currentPost);
 
   //Schema formik
-  const schema = yup.object().shape({
-    title: yup.string().required("Bắt buộc"),
-    description: yup.string().required("Bắt buộc"),
-    value: yup.string().required("Bắt buộc"),
-  });
+  // const schema = yup.object().shape({
+  //   title: yup.string().required("Bắt buộc"),
+  //   description: yup.string().required("Bắt buộc"),
+  //   value: yup.string().required("Bắt buộc"),
+  // });
 
-  const initialize = {
-    title: "",
-    value: "",
-  };
+  // const initialize = {
+  //   title: "",
+  //   value: "",
+  // };
 
-  const formik = useFormik({
-    initialValues: initialize,
-    validationSchema: schema,
-    onSubmit: async (values, { setErrors }) => {
-      console.log(values.title, values.value, values.cat);
-    },
-  });
+  // const formik = useFormik({
+  //   initialValues: initialize,
+  //   validationSchema: schema,
+  //   onSubmit: async (values, { setErrors }) => {
+  //     console.log(values.title, values.value, values.cat);
+  //   },
+  // });
 
   const handleChange = (e) => {
     if (currentPost) {
@@ -88,25 +87,25 @@ const Write = () => {
     formData.append("type", dropdownOption);
     formData.append("file", uploadFile);
     try {
-      if (currentPost) {
-        handleEditPost(currentPost._id, formData);
-        //     formData.append("title", currentPost.title);
-        //     formData.append("description", currentPost.description);
-        //     formData.append("category", currentPost.category);
-        //     formData.append("type", CurrentPost.type);
-        //     formData.append("file", uploadFile)
+      if (!uploadFile || !title || !value) {
+        setValid(true);
+        // handleSubmit()
+        enqueueSnackbar("Bạn phải nhập tất cả dữ liệu", { variant: "error" });
+        return;
       } else {
-        handleCreatePost(formData);
+        if (currentPost) {
+          handleEditPost(currentPost._id, formData);
+          // handleSubmit();
+        } else {
+          handleCreatePost(formData);
+          // handleSubmit();
+        }
       }
 
       // navigate("/");
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const handleEdit = () => {
-    setIsEdit(!isEdit);
   };
 
   const handleDeleteImage = () => {
@@ -139,6 +138,19 @@ const Write = () => {
     ["link", "image"],
   ];
 
+  // const handleSubmit = () => {
+  //   if(!title){
+  //     setValid(true)
+  //      enqueueSnackbar("Bạn phải nhập tất cả dữ liệu", { variant: "error" });
+  //     return
+  //   }
+  //   else if(!value){
+  //     setValid(true)
+  //      enqueueSnackbar("Bạn phải nhập tất cả dữ liệu", { variant: "error" });
+  //     return
+  //   }
+  // }
+
   return (
     <>
       {isLoading ? <LoadingScreen /> : null}
@@ -151,7 +163,7 @@ const Write = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-            {title === "" ? <Errormessage /> : null}
+            {valid ? <Errormessage /> : null}
             <div className="editorContainer">
               <ReactQuill
                 className="editor"
@@ -168,7 +180,7 @@ const Write = () => {
                 }}
               />
             </div>
-            {value === "" ? <Errormessage /> : null}
+            {valid ? <Errormessage /> : null}
           </div>
           <div className="menu">
             <div className="item WrapThumbnail">
@@ -209,10 +221,13 @@ const Write = () => {
               )}
               <div style={{ display: "flex" }}>
                 <div className="buttons">
-                  <button onClick={handleClick}>Đăng bài</button>
+                  <button  onClick={handleClick}>
+                    Đăng bài
+                  </button>
                 </div>
               </div>
             </div>
+            {valid ? <Errormessage /> : null}
             <div className="item">
               <h1>Đề mục</h1>
               <div className="WrapCat">

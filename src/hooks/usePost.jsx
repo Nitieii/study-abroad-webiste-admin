@@ -2,9 +2,11 @@ import { useSelector, useDispatch } from "react-redux";
 import axiosInstance from "../utils/axios";
 import { POST_API, GET_API, DELETE_API, UPDATE_API } from "../utils/api";
 import { HANDLE_LOADING, GET_POST,HANDLE_SET_TYPE } from "../store/postSlice";
+import useAlert from "./useAlert";
 
 const usePost = () => {
   const dispatch = useDispatch();
+  const {enqueueSnackbar} = useAlert()
   const { post, isLoading ,type} = useSelector((state) => state.post);
 
   const handleGetPost = async (page, cat, type) => {
@@ -39,6 +41,8 @@ const usePost = () => {
       // dispatch(SET_POST(res.data));
       console.log(res.data);
       if (res.data.status === "success") {
+         enqueueSnackbar("Submit successfully", { variant: "success" });
+         console.log(res.data)
         dispatch(HANDLE_LOADING(false));
       }
     } catch (error) {

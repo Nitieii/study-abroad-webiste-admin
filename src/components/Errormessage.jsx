@@ -2,7 +2,7 @@ import React from 'react'
 
 const Errormessage = () => {
   return (
-    <div>Required</div>
+    <div style={{color: "red"}}>Bạn cần nhập đầy đủ mục này *</div>
   )
 }
 

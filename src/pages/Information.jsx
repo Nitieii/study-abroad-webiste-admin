@@ -53,7 +53,8 @@ const Information = () => {
     handleDeletePost,
     isLoading,
     type,
-    handleChangeSetType
+    handleChangeSetType,
+    totalPage
   } = usePost();
   const cat = "thong-tin-du-hoc";
   // const type = 'du-hoc-han-quoc'
@@ -145,7 +146,8 @@ const Information = () => {
                                 className="row"
                                 style={{
                                   borderBottom: "1px solid #e6e6e6",
-                                  marginTop: 25,
+                                  marginTop: 20,
+                                  marginBottom:10,
                                   paddingBottom: 1,
                                   display: "flex",
                                   justifyContent: "space-between",
@@ -172,6 +174,7 @@ const Information = () => {
                                         fontSize: 20,
                                         color: "black",
                                         fontWeight: 600,
+                                        textDecoration: 'none'
                                       }}
                                     >
                                       {item?.title}
@@ -181,6 +184,7 @@ const Information = () => {
                                       style={{
                                         fontSize: 12,
                                         marginBottom: 10,
+                                        marginTop: 5
                                       }}
                                     >
                                       🗓️{" "}
@@ -224,7 +228,7 @@ const Information = () => {
                                   >
                                     <img
                                       src={DeleteIcon}
-                                      alt="edit"
+                                      alt="delete"
                                       style={{ height: 25 }}
                                     />
                                   </div>
@@ -254,7 +258,7 @@ const Information = () => {
               </Tabs>
 
               {/* Load more button */}
-              <div className="row ">
+              {currentPage < totalPage ? <div className="row ">
                 <div className="col-md-12 d-flex align-items-center justify-content-center">
                   <button
                     className="btn btn-primary"
@@ -270,7 +274,8 @@ const Information = () => {
                     Xem Thêm
                   </button>
                 </div>
-              </div>
+              </div> : null}
+
             </div>
 
             {/* <Fanpage /> */}

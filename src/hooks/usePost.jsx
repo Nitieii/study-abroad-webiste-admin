@@ -1,13 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
 import axiosInstance from "../utils/axios";
 import { POST_API, GET_API, DELETE_API, UPDATE_API } from "../utils/api";
-import { HANDLE_LOADING, GET_POST,HANDLE_SET_TYPE } from "../store/postSlice";
+import { HANDLE_LOADING, GET_POST,HANDLE_SET_TYPE, GET_TOTALPAGE } from "../store/postSlice";
 import useAlert from "./useAlert";
 
 const usePost = () => {
   const dispatch = useDispatch();
   const {enqueueSnackbar} = useAlert()
-  const { post, isLoading ,type} = useSelector((state) => state.post);
+  const { post, isLoading ,type, totalPage} = useSelector((state) => state.post);
 
   const handleGetPost = async (page, cat, type) => {
     dispatch(HANDLE_LOADING(true));
@@ -17,6 +17,7 @@ const usePost = () => {
       );
 
       if (res.data.status === "success") {
+        dispatch(GET_TOTALPAGE(res.data.totalPage))
         if (page == 1) {
           console.log(res.data.posts);
           dispatch(GET_POST(res.data.posts));
@@ -89,7 +90,8 @@ const usePost = () => {
     handleDeletePost,
     handleEditPost,
     type,
-    handleChangeSetType
+    handleChangeSetType,
+    totalPage
   };
 };
 

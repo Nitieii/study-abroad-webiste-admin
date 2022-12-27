@@ -3,10 +3,11 @@ $lightGreen: #b9e7e7;
 .app {
   display: flex;
   justify-content: center;
-  position: relative;
+
 
   .container {
     width: 100%;
+    position: relative;
     //1140px
 
     .link {
@@ -37,7 +38,7 @@ $lightGreen: #b9e7e7;
         background-color: white;
         width: 200px;
         gap: 20px;
-
+        
         input {
           padding: 10px;
           border: none;
@@ -149,6 +150,7 @@ $lightGreen: #b9e7e7;
       background-color: lightgray;
       font-size: 12px;
       width: 97.5%;
+
       .container {
         display: flex;
         justify-content: space-between;
@@ -345,6 +347,7 @@ $lightGreen: #b9e7e7;
     form {
       width: 79%;
       margin: 0 auto;
+      margin-bottom: 200px;
     }
 
     .add {

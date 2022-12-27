@@ -162,7 +162,7 @@ const Information = () => {
                                 </div>
 
                                 <div
-                                  className="col-md-8 description"
+                                  className="col-md-8 description-infor"
                                   style={{ width: "63%" }}
                                 >
                                   <div className="wrapper">

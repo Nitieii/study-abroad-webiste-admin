@@ -26,7 +26,7 @@
   background-color: #f1f6fe;
   padding: 20px 0;
 }
-.description img {
+.description-infor img {
   display: none;
 }
 
@@ -61,14 +61,14 @@
 .img-news {
   width: 30%;
   height: 250px;
-  margin-right: 15px;
+  margin-right: 20px;
 }
 .des-news img {
   display: none;
 }
 
 .description {
-  width: 68%;
+  width: 63%;
 }
 
 .des-news{

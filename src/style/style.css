@@ -79,3 +79,23 @@
   -webkit-box-orient: vertical;
   word-wrap: break-word;
 }
+/* culture */
+.cul-img{
+  width: 30%;
+  height: 250px;
+  object-fit: cover;
+  padding: 0 12px;
+}
+
+.cul-des{
+  width: 63%;
+}
+
+.cul-content{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+}

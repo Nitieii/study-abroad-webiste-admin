@@ -34,7 +34,7 @@ const Write = () => {
   // const [formValues, setFormValues] = useState(initialValues);
   const { handleCreatePost, post, isLoading, handleEditPost } = usePost();
   const { enqueueSnackbar } = useAlert();
-  const [dropdownOption, setDropdown] = useState("");
+  const [dropdownOption, setDropdown] = useState("du-hoc-han-quoc");
   const DropdownOptions = [
     { value: "du-hoc-han-quoc", label: "Du học Hàn Quốc" },
     { value: "du-hoc-dai-loan", label: "Du học Đài Loan" },
@@ -49,25 +49,6 @@ const Write = () => {
 
   const currentPost = post.find((item) => item._id === id);
 
-  //Schema formik
-  // const schema = yup.object().shape({
-  //   title: yup.string().required("Bắt buộc"),
-  //   description: yup.string().required("Bắt buộc"),
-  //   value: yup.string().required("Bắt buộc"),
-  // });
-
-  // const initialize = {
-  //   title: "",
-  //   value: "",
-  // };
-
-  // const formik = useFormik({
-  //   initialValues: initialize,
-  //   validationSchema: schema,
-  //   onSubmit: async (values, { setErrors }) => {
-  //     console.log(values.title, values.value, values.cat);
-  //   },
-  // });
 
   const handleChange = (e) => {
     if (currentPost) {
@@ -138,18 +119,7 @@ const Write = () => {
     ["link", "image"],
   ];
 
-  // const handleSubmit = () => {
-  //   if(!title){
-  //     setValid(true)
-  //      enqueueSnackbar("Bạn phải nhập tất cả dữ liệu", { variant: "error" });
-  //     return
-  //   }
-  //   else if(!value){
-  //     setValid(true)
-  //      enqueueSnackbar("Bạn phải nhập tất cả dữ liệu", { variant: "error" });
-  //     return
-  //   }
-  // }
+
 
   return (
     <>

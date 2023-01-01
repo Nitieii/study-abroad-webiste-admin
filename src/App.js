@@ -16,6 +16,8 @@ import News from "./pages/News";
 import "./style.scss";
 import Students from "./pages/Student";
 import Culture from "./pages/Culture";
+import useAuthentication from "./hooks/useAuthentication";
+
 
 const Layout = () => {
   return (
@@ -54,12 +56,12 @@ const router = createBrowserRouter([
         element: <News />,
       },
       {
-        path:"/goc-du-hoc-sinh",
-        element: <Students/>
+        path: "/goc-du-hoc-sinh",
+        element: <Students />
       },
       {
-        path:"/van-hoa-cac-nuoc",
-        element: <Culture/>
+        path: "/van-hoa-cac-nuoc",
+        element: <Culture />
       }
     ],
   },
@@ -73,16 +75,20 @@ const router = createBrowserRouter([
   },
 ]);
 
+
 function App() {
   return (
-    <div className="app">
-      {/* <NotistackProvider> */}
+    <>
+      <div className="app">
+        {/* <NotistackProvider> */}
         <div className="container">
           <RouterProvider router={router} />
         </div>
-      {/* </NotistackProvider> */}
-    </div>
+        {/* </NotistackProvider> */}
+      </div>
+    </>
   );
 }
+
 
 export default App;

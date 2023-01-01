@@ -5,13 +5,17 @@ import { AuthContexProvider } from "./context/authContext";
 import { Provider } from "react-redux";
 import store from "./store";
 import { SnackbarProvider } from "notistack";
+import { styled } from "@mui/material";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <AuthContexProvider>
-        <SnackbarProvider anchorOrigin={{vertical:'top',horizontal:'right'}}>
+        <SnackbarProvider
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          autoHideDuration={3000}
+        >
           <App />
         </SnackbarProvider>
       </AuthContexProvider>

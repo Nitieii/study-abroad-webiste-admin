@@ -32,7 +32,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Information />,
       },
       {
         path: "/post/:id",

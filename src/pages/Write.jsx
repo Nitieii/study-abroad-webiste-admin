@@ -87,7 +87,7 @@ const Write = () => {
     formData.append("type", dropdownOption);
     formData.append("file", uploadFile);
     try {
-      if (!uploadFile || !title || !value) {
+      if (!file || !title || !value) {
         setValid(true);
         // handleSubmit()
         enqueueSnackbar("Bạn phải nhập tất cả dữ liệu", { variant: "error" });
@@ -163,7 +163,7 @@ const Write = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-            {valid ? <Errormessage /> : null}
+            {!title && valid ? <Errormessage /> : null}
             <div className="editorContainer">
               <ReactQuill
                 className="editor"
@@ -180,7 +180,7 @@ const Write = () => {
                 }}
               />
             </div>
-            {valid ? <Errormessage /> : null}
+            {!value && valid ? <Errormessage /> : null}
           </div>
           <div className="menu">
             <div className="item WrapThumbnail">
@@ -227,7 +227,7 @@ const Write = () => {
                 </div>
               </div>
             </div>
-            {valid ? <Errormessage /> : null}
+            {!file && valid ? <Errormessage /> : null}
             <div className="item">
               <h1>Đề mục</h1>
               <div className="WrapCat">

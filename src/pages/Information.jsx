@@ -147,7 +147,7 @@ const Information = () => {
                                 style={{
                                   borderBottom: "1px solid #e6e6e6",
                                   marginTop: 20,
-                                  marginBottom:10,
+                                  marginBottom: 10,
                                   paddingBottom: 1,
                                   display: "flex",
                                   justifyContent: "space-between",
@@ -174,8 +174,9 @@ const Information = () => {
                                         fontSize: 20,
                                         color: "black",
                                         fontWeight: 600,
-                                        textDecoration: 'none'
+                                        textDecoration: "none",
                                       }}
+                                      to={`/write/${item?._id}`}
                                     >
                                       {item?.title}
                                     </Link>
@@ -184,7 +185,7 @@ const Information = () => {
                                       style={{
                                         fontSize: 12,
                                         marginBottom: 10,
-                                        marginTop: 5
+                                        marginTop: 5,
                                       }}
                                     >
                                       🗓️{" "}

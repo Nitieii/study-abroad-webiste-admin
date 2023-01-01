@@ -13,10 +13,16 @@ const Login = () => {
     password: "",
   });
   const [err, setError] = useState(null);
-  const {handleLogin,isLoading} = useAuthentication()
+  const {handleLogin,isLoading,handleAuthenticated} = useAuthentication()
   const navigate = useNavigate();
 
   const { login } = useContext(AuthContext);
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('accessToken')
+    if (!token) return
+    handleAuthenticated()
+  }, [])
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));

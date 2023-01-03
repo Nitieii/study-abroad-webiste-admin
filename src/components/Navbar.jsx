@@ -35,14 +35,11 @@ const Navbar = () => {
           </Link>
 
           {isAuthenticated ? (
-            <Link to="/login" onClick={handleLogout}>
+            <Link onClick={handleLogout}>
               Đăng xuất
             </Link>
-          ) : (
-            <Link className="link" to="/login">
-              Đăng nhập
-            </Link>
-          )}
+          ) : null
+          }
           <span className="write">
             <Link className="link" to="/write">
               Tạo bài viết

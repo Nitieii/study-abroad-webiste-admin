@@ -48,25 +48,6 @@ const Write = () => {
 
   const currentPost = post.find((item) => item._id === id);
 
-  //Schema formik
-  // const schema = yup.object().shape({
-  //   title: yup.string().required("Bắt buộc"),
-  //   description: yup.string().required("Bắt buộc"),
-  //   value: yup.string().required("Bắt buộc"),
-  // });
-
-  // const initialize = {
-  //   title: "",
-  //   value: "",
-  // };
-
-  // const formik = useFormik({
-  //   initialValues: initialize,
-  //   validationSchema: schema,
-  //   onSubmit: async (values, { setErrors }) => {
-  //     console.log(values.title, values.value, values.cat);
-  //   },
-  // });
 
   const handleChange = (e) => {
     if (currentPost) {
@@ -138,18 +119,7 @@ const Write = () => {
     ["link", "image"],
   ];
 
-  // const handleSubmit = () => {
-  //   if(!title){
-  //     setValid(true)
-  //      enqueueSnackbar("Bạn phải nhập tất cả dữ liệu", { variant: "error" });
-  //     return
-  //   }
-  //   else if(!value){
-  //     setValid(true)
-  //      enqueueSnackbar("Bạn phải nhập tất cả dữ liệu", { variant: "error" });
-  //     return
-  //   }
-  // }
+
 
   return (
     <>

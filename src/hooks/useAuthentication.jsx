@@ -4,6 +4,7 @@ import { POST_API, GET_API } from "../utils/api";
 import { useNavigate } from "react-router-dom";
 // import { useAlert } from 'hook'
 import {
+  SET_USER,
   HANDLE_LOADING,
   HANDLE_LOGOUT,
   IS_AUTHENTICATED,
@@ -14,6 +15,33 @@ const useAuthentication = () => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
+
+  const handleAuthenticated = async (token = '') => {
+    dispatch(HANDLE_LOADING(true))
+    try {
+      const accessToken = token || localStorage.getItem('accessToken')
+      const getId = getIdByToken(accessToken)
+
+      if (getId) {
+        setSession(accessToken)
+        const response = await axiosInstance.get(GET_API(getId).userById)
+
+        dispatch(HANDLE_LOADING(false))
+
+        if (response.data.status === 'success') {
+          return dispatch(SET_USER
+            (response.data.user))
+        }
+        return false
+      }
+
+      dispatch(HANDLE_LOGOUT())
+      dispatch(HANDLE_LOADING(false))
+    } catch (err) {
+      console.log('error', err)
+      dispatch(HANDLE_LOGOUT())
+    }
+  }
 
   const handleLogin = async (inputs) => {
     try {
@@ -47,6 +75,7 @@ const useAuthentication = () => {
     isLoading,
     isAuthenticated,
     handleLogout,
+    handleAuthenticated,
   };
 };
 

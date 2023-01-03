@@ -20,6 +20,17 @@ const axiosInstance = axios.create({
 //   (error) => Promise.reject(error?.response)
 // );
 
+axiosInstance.interceptors.request.use(
+  response => {
+    const token = localStorage.getItem('accessToken')
+    if (!token) localStorage.removeItem('accessToken')
+    response.headers.authorization = token ? `Bearer ${token}` : ''
+    return response
+  },
+  error => Promise.reject(error?.response)
+)
+
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => Promise.reject(error)

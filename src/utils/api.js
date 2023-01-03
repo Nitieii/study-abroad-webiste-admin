@@ -1,7 +1,6 @@
 const GET_API = ({ page, cat, type, id }) => {
   return {
     userById: `/user/${id}`,
-
     getPost: `/posts?page=${page}&category=${cat}&type=${type}`,
     getNews: `/posts?page=${page}&category=${cat}`,
   };

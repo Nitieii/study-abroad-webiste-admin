@@ -13,6 +13,8 @@ import Footer from "../../components/Footer";
 import Information from "../../pages/Information";
 import News from "../../pages/News";
 import "../../style/style.css";
+import Students from "../../pages/Student";
+import Culture from "../../pages/Culture"
 
 const Layout = () => {
     return (
@@ -50,6 +52,14 @@ const router = createBrowserRouter([
                 path: "/tin-tuc",
                 element: <News />,
             },
+            {
+                path:"/goc-du-hoc-sinh",
+                element:<Students/>
+            },
+            {
+                path:"/van-hoa-cac-nuoc",
+                element: <Culture/>
+            }
         ],
     },
 ]);

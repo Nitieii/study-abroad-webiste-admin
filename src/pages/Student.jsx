@@ -3,6 +3,7 @@ import WSPGallery from "../components/Gallery";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Fanpage from "../components/Fanpage";
+import LoadingScreen from "../components/LoadingScreen";
 
 const items = [
   {
@@ -74,6 +75,7 @@ const Students = () => {
 
   return (
     <main id="main" data-aos="fade-up">
+      {loading? <LoadingScreen/> : null}
       <section className="breadcrumbs">
         <div className="container">
           <div className="d-flex justify-content-between align-items-center">

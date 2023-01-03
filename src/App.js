@@ -1,15 +1,7 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Outlet,
-} from "react-router-dom";
-
 import "./style.scss";
-import AuthStackNavigate from "./components/navigate/AuthStackNavigate";
 import StackNavigate from "./components/navigate/StackNavigate";
 import useAuthentication from "./hooks/useAuthentication";
-
+import Login from "./pages/Login";
 
 
 function App() {
@@ -17,9 +9,8 @@ function App() {
   console.log(isAuthenticated)
   return (
     <>
-      {!isAuthenticated ? <AuthStackNavigate/> : <StackNavigate/>}
+      {!isAuthenticated ? <Login/> : <StackNavigate/>}
     </>
-    // <AuthStackNavigate/>
   );
 }
 

@@ -13,8 +13,7 @@ const Login = () => {
     password: "",
   });
   const [err, setError] = useState(null);
-  const {handleLogin,isLoading,handleAuthenticated} = useAuthentication()
-  const navigate = useNavigate();
+  const { handleLogin, isLoading, handleAuthenticated } = useAuthentication()
 
   const { login } = useContext(AuthContext);
 
@@ -33,7 +32,7 @@ const Login = () => {
     try {
       // await login(inputs);
       handleLogin(inputs)
-  
+
       // navigate("/");
     } catch (err) {
       setError(err.response.data);
@@ -45,26 +44,33 @@ const Login = () => {
       {isLoading ? (
         <LoadingScreen />
       ) : (
-        <div className="auth">
-          <form className="form-login">
-            <input
-              required
-              type="text"
-              placeholder="email"
-              name="email"
-              onChange={handleChange}
-            />
-            <input
-              required
-              type="password"
-              placeholder="mật khẩu"
-              name="password"
-              onChange={handleChange}
-            />
-            <button onClick={handleSubmit}>Login</button>
-            {err && <p>{err}</p>}
-          </form>
+        <div className="auth-container">
+          <div className="auth">
+            <h2 style={{
+              color:'teal',
+              marginBottom:20
+            }}>Đăng Nhập</h2>
+            <form className="form-login">
+              <input
+                required
+                type="text"
+                placeholder="email"
+                name="email"
+                onChange={handleChange}
+              />
+              <input
+                required
+                type="password"
+                placeholder="mật khẩu"
+                name="password"
+                onChange={handleChange}
+              />
+              <button onClick={handleSubmit}>Login</button>
+              {err && <p>{err}</p>}
+            </form>
+          </div>
         </div>
+
       )}
     </>
   );

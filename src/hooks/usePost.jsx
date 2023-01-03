@@ -68,7 +68,7 @@ const usePost = () => {
       enqueueSnackbar("Chỉnh sửa bài viết thành công", {
         variant: "success",
       });
-      navigate("/thong-tin-du-hoc");
+      navigate("/thong-tin-du-hoc-sinh");
       dispatch(HANDLE_LOADING(false));
     } catch (error) {
       console.log("error", error);

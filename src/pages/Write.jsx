@@ -34,7 +34,6 @@ const Write = () => {
   // const [formValues, setFormValues] = useState(initialValues);
   const { handleCreatePost, post, isLoading, handleEditPost } = usePost();
   const { enqueueSnackbar } = useAlert();
-  const [dropdownOption, setDropdown] = useState("du-hoc-han-quoc");
   const DropdownOptions = [
     { value: "du-hoc-han-quoc", label: "Du học Hàn Quốc" },
     { value: "du-hoc-dai-loan", label: "Du học Đài Loan" },
@@ -42,8 +41,8 @@ const Write = () => {
     { value: "du-hoc-uc", label: "Du hoc Úc" },
     { value: "du-hoc-duc", label: "Du hoc Đức" },
   ];
-  const defalutValueDropdown = DropdownOptions[0];
-
+  const defalutValueDropdown = "du-hoc-han-quoc";
+  const [dropdownOption, setDropdown] = useState(defalutValueDropdown);
   const ref = useRef();
   const { id } = useParams();
 
@@ -68,7 +67,7 @@ const Write = () => {
     formData.append("type", dropdownOption);
     formData.append("file", uploadFile);
     try {
-      if (!uploadFile || !title || !value) {
+      if (!file || !title || !value) {
         setValid(true);
         // handleSubmit()
         enqueueSnackbar("Bạn phải nhập tất cả dữ liệu", { variant: "error" });
@@ -92,7 +91,7 @@ const Write = () => {
   const handleDeleteImage = () => {
     setFile((pre) => pre === "");
   };
-
+  console.log(currentPost);
   // Disable spellcheck as component is mounted
   React.useEffect(() => {
     ref.current?.editor.root.setAttribute("spellcheck", "false");
@@ -101,6 +100,7 @@ const Write = () => {
       setFile(currentPost?.thumbnail_url);
       setTitle(currentPost?.title);
       setValue(currentPost?.description);
+      setCat(currentPost.category);
       if (currentPost.category === "thong-tin-du-hoc") {
         setDropdown(currentPost?.type);
       }
@@ -133,7 +133,7 @@ const Write = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-            {valid ? <Errormessage /> : null}
+            {!title && valid ? <Errormessage /> : null}
             <div className="editorContainer">
               <ReactQuill
                 className="editor"
@@ -150,7 +150,7 @@ const Write = () => {
                 }}
               />
             </div>
-            {valid ? <Errormessage /> : null}
+            {!value && valid ? <Errormessage /> : null}
           </div>
           <div className="menu">
             <div className="item WrapThumbnail">
@@ -191,13 +191,11 @@ const Write = () => {
               )}
               <div style={{ display: "flex" }}>
                 <div className="buttons">
-                  <button  onClick={handleClick}>
-                    Đăng bài
-                  </button>
+                  <button onClick={handleClick}>Đăng bài</button>
                 </div>
               </div>
             </div>
-            {valid ? <Errormessage /> : null}
+            {!file && valid ? <Errormessage /> : null}
             <div className="item">
               <h1>Đề mục</h1>
               <div className="WrapCat">

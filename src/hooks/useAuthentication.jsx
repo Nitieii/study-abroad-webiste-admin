@@ -12,7 +12,7 @@ import {
 import { setSession, getIdByToken } from "../utils/jwt";
 
 const useAuthentication = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
 
@@ -53,7 +53,7 @@ const useAuthentication = () => {
         
         dispatch(IS_AUTHENTICATED(true));
         dispatch(HANDLE_LOADING(false));
-        navigate("/thong-tin-du-hoc-sinh");
+        // navigate("/thong-tin-du-hoc-sinh");
       } else {
         alert("Sai thong tin dang nhap!!");
       }
@@ -67,7 +67,7 @@ const useAuthentication = () => {
     setSession("");
     dispatch(HANDLE_LOGOUT());
     window.localStorage.clear();
-    navigate("/login");
+    // navigate("/login");
   };
 
   return {

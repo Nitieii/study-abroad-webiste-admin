@@ -1,6 +1,7 @@
 .dropdownOptions {
   margin-top: 12px;
 }
+
 .cat {
   height: 60px;
 }
@@ -10,6 +11,7 @@
   display: flex;
   justify-content: space-between;
 }
+
 .nav-header li {
   list-style-type: none;
 }
@@ -19,13 +21,16 @@
   width: 22%;
   justify-content: space-between;
 }
+
 .home-link:visited {
   color: #2f9931;
 }
+
 .breadcrumbs {
   background-color: #f1f6fe;
   padding: 20px 0;
 }
+
 .description-infor img {
   display: none;
 }
@@ -35,6 +40,7 @@
   height: 250px;
   margin-right: 20px;
 }
+
 .img-infor {
   object-fit: cover;
   width: 100%;
@@ -63,6 +69,7 @@
   height: 250px;
   margin-right: 20px;
 }
+
 .des-news img {
   display: none;
 }
@@ -71,7 +78,7 @@
   width: 63%;
 }
 
-.des-news{
+.des-news {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -79,23 +86,111 @@
   -webkit-box-orient: vertical;
   word-wrap: break-word;
 }
-/* culture */
-.cul-img{
-  width: 30%;
-  height: 250px;
-  object-fit: cover;
-  padding: 0 12px;
+
+/* AuthNavigate */
+a{
+  text-decoration: none;
 }
 
-.cul-des{
-  width: 63%;
+.links {
+  display: flex;
+  justify-content: space-between;
 }
 
-.cul-content{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  word-wrap: break-word;
+.AuthNavigation {
+  margin-bottom: 20px;
+  background-color: #b9e7e7;
+}
+
+h2 {
+  color: teal;
+}
+
+.AuthNavigation>.link-container {
+  width: 20%;
+  padding: 0 20px;
+  margin: auto;
+}
+
+.app-auth {
+  background-color: #b9e7e7;
+
+}
+
+.container-auth {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+  height: 100vh;
+}
+
+.form-register {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  background-color: white;
+  width: 20%;
+  gap: 20px;
+}
+
+.form-register input {
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid gray;
+}
+
+.form-register > button {
+  padding: 10px;
+  border: none;
+  background-color: teal;
+  cursor: pointer;
+  color: white;
+}
+
+.form-register p {
+  font-size: 12px;
+  color: red;
+  text-align: center;
+}
+
+.form-register span {
+  font-size: 12px;
+  text-align: center;
+}
+
+.form-login{
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  background-color: white;
+  width: 20%;
+  gap: 20px;
+}
+
+.form-login input {
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid gray;
+}
+
+.form-login > button {
+  padding: 10px;
+  border: none;
+  background-color: teal;
+  cursor: pointer;
+  color: white;
+}
+
+.form-login p {
+  font-size: 12px;
+  color: red;
+  text-align: center;
+}
+
+.form-login span {
+  font-size: 12px;
+  text-align: center;
 }

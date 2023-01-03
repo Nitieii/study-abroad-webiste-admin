@@ -23,7 +23,10 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <AuthContexProvider>
-        <SnackbarProvider anchorOrigin={{vertical:'top',horizontal:'right'}}>
+        <SnackbarProvider
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          autoHideDuration={3000}
+        >
           <App />
         </SnackbarProvider>
       </AuthContexProvider>

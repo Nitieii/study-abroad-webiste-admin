@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import LoadingScreen from "../components/LoadingScreen";
 import useAuthentication from './../hooks/useAuthentication';
-
+import "../style/style.css"
 
 const Login = () => {
   const [inputs, setInputs] = useState({
@@ -46,8 +46,7 @@ const Login = () => {
         <LoadingScreen />
       ) : (
         <div className="auth">
-          <h1>Đăng nhập</h1>
-          <form>
+          <form className="form-login">
             <input
               required
               type="text"

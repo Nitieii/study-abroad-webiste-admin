@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axiosInstance from "../utils/axios";
 import { POST_API, GET_API, DELETE_API } from "../utils/api";
 import { GET_NEWS, HANDLE_LOADING, GET_TOTALPAGE } from "../store/newSlice";
+import { GET_POST } from "../store/postSlice";
 
 const useNews = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const useNews = () => {
         if (page === 1) {
           console.log(res.data);
           dispatch(GET_NEWS(res.data.posts));
+          dispatch(GET_POST(res.data.posts))
         }else{
           const newArray = [...news, ...res.data.posts ]
           console.log(newArray)

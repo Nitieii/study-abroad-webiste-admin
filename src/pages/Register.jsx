@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import "../style/style.css"
 const Register = () => {
   const [inputs, setInputs] = useState({
     username: "",
@@ -11,7 +11,7 @@ const Register = () => {
   });
   const [err, setError] = useState(null);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -21,7 +21,7 @@ const Register = () => {
     e.preventDefault();
     try {
       await axios.post("/auth/register", inputs);
-      navigate("/login");
+      // navigate("/login");
     } catch (err) {
       setError(err.response.data);
     }
@@ -29,8 +29,7 @@ const Register = () => {
 
   return (
     <div className="auth">
-      <h1>Register</h1>
-      <form>
+      <form className="form-register">
         <input
           required
           type="text"

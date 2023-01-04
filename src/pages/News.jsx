@@ -73,8 +73,8 @@ const News = () => {
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
-                      paddingLeft:12,
-                      paddingRight:12
+                      paddingLeft: 12,
+                      paddingRight: 12,
                     }}
                   />
                 </div>
@@ -95,11 +95,10 @@ const News = () => {
                   </Link>
 
                   <p
-
                     style={{
                       fontSize: 12,
                       marginBottom: 10,
-                      marginTop: 5
+                      marginTop: 5,
                     }}
                   >
                     🗓️{" "}
@@ -118,24 +117,17 @@ const News = () => {
                     dangerouslySetInnerHTML={{ __html: item?.description }}
                   ></p>
                 </div>
-                <div className="EditNews"
-                  style={{display:'flex'}}
-                >
-                  <img
-                    src={Edit}
-                    alt="edit"
-                    style={{ height: 25, marginRight: 5 }}
-                  />
-                  <div
-                    onClick={() =>
-                      handleAlertDeleteNews(item?._id)
-                    }
-                  >
+                <div className="EditNews" style={{ display: "flex" }}>
+                  <Link to={`/write/${item?._id}`}>
                     <img
-                      src={DeleteIcon}
-                      alt="delete"
-                      style={{ height: 25 }}
+                      src={Edit}
+                      alt="edit"
+                      style={{ height: 25, marginRight: 5 }}
                     />
+                  </Link>
+
+                  <div onClick={() => handleAlertDeleteNews(item?._id)}>
+                    <img src={DeleteIcon} alt="delete" style={{ height: 25 }} />
                   </div>
                 </div>
               </div>

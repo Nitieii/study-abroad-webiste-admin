@@ -31,7 +31,7 @@ const useAuthentication = () => {
 
         // getUser(res.data.data)
          enqueueSnackbar("Đăng nhập thành công", { variant: "success" });
-        dispatch(IS_AUTHENTICATED(true));
+     
         dispatch(HANDLE_LOADING(false));
       } else {
          enqueueSnackbar("Sai thông tin đăng nhập", { variant: "error" });

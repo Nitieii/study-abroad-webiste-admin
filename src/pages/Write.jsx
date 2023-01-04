@@ -15,6 +15,7 @@ import LoadingScreen from "../components/LoadingScreen";
 // import * as yup from "yup";
 // import { Formik, useFormik, FormikProvider, Form } from "formik";
 import useAlert from "../hooks/useAlert";
+import { Hidden } from "@mui/material";
 
 ReactQuill.Quill.register("modules/imageResize", ImageResize);
 
@@ -171,6 +172,7 @@ const Write = () => {
                 theme="snow"
                 value={value}
                 onChange={setValue}
+                overflow={Hidden}
                 modules={{
                   toolbar: toolbarOptions,
                   imageResize: {

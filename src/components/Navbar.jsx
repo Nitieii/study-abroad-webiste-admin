@@ -34,12 +34,11 @@ const Navbar = () => {
             <h6>Văn hoá các nước</h6>
           </Link>
 
-          {isAuthenticated ? (
-            <Link onClick={handleLogout}>
-              Đăng xuất
-            </Link>
-          ) : null
-          }
+
+          <Link onClick={handleLogout}>
+            Đăng xuất
+          </Link>
+
           <span className="write">
             <Link className="link" to="/write">
               Tạo bài viết

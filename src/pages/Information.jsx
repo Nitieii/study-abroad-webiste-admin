@@ -58,10 +58,19 @@ const Information = () => {
   } = usePost();
   const cat = "thong-tin-du-hoc";
   // const type = 'du-hoc-han-quoc'
+  const informationPost = post.filter(item => item.category === "thong-tin-du-hoc" && item.type === type)
+  console.log(informationPost)
+
+  const getPost = () => {
+    handleGetPost(currentPage,cat,type)
+  }
+
   useEffect(() => {
-    handleGetPost(currentPage, cat, type);
+    // handleGetPost(currentPage, cat, type);
+    getPost()
   }, [currentPage,type]);
 
+  
 
   const handleAlertDeletePost = (id) => {
     confirmAlert({

@@ -82,7 +82,7 @@ const usePost = () => {
       const res = await axiosInstance.delete(DELETE_API(id).deletePost);
       if (res.data.status === "success") {
         dispatch(HANDLE_LOADING(false));
-        window.location.reload(true);
+        handleGetPost()
       }
       dispatch(HANDLE_LOADING(false));
     } catch (error) {

@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axiosInstance from "../utils/axios";
 import { POST_API, GET_API } from "../utils/api";
 import { useNavigate } from "react-router-dom";
-// import { useAlert } from 'hook'
+import  useAlert  from './useAlert'
 import {
   SET_USER,
   HANDLE_LOADING,
@@ -15,6 +15,7 @@ const useAuthentication = () => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
+  const { enqueueSnackbar } = useAlert();
 
   const handleAuthenticated = async (token = '') => {
     dispatch(HANDLE_LOADING(true))
@@ -50,12 +51,12 @@ const useAuthentication = () => {
       console.log(res);
       if (res.data.status === "success") {
         // getUser(res.data.data)
-        
+         enqueueSnackbar("Đăng nhập thành công", { variant: "success" });
         dispatch(IS_AUTHENTICATED(true));
         dispatch(HANDLE_LOADING(false));
         // navigate("/thong-tin-du-hoc-sinh");
       } else {
-        alert("Sai thong tin dang nhap!!");
+         enqueueSnackbar("Sai thông tin đăng nhập", { variant: "error" });
       }
     } catch (error) {
       dispatch(HANDLE_LOADING(false));

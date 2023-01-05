@@ -24,6 +24,7 @@ const useAuthentication = () => {
         if (res.data.user) {
           localStorage.setItem("email", res.data.user.email)
           localStorage.setItem("password", res.data.user.password)
+          window.location.reload()
         }
 
         dispatch(HANDLE_LOADING(false));
@@ -39,6 +40,7 @@ const useAuthentication = () => {
   const handleLogout = () => {
     dispatch(HANDLE_LOGOUT());
     window.localStorage.clear();
+    window.location.reload();
   };
 
   return {

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import WSPGallery from "../components/Gallery";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
-import Fanpage from "../components/Fanpage";
 import LoadingScreen from "../components/LoadingScreen";
+import "../style/style.css"
+import Upload from "../img/uploadicon.png"
+import Delete from "../img/deletebtn.png"
+import Editbtn from "../img/editbtn.png"
+import useUploader from "../hooks/useUploader";
+import { FileUploader } from "react-drag-drop-files";
 
 const items = [
   {
@@ -40,127 +42,105 @@ const items = [
   },
 ];
 
-const tabs = [
-  {
-    index: 0,
-    title: "Du học Hàn Quốc",
-  },
-  {
-    index: 1,
-    title: "Du học Đài Loan",
-  },
-  {
-    index: 2,
-    title: "Du học Trung Quốc",
-  },
-  {
-    index: 3,
-    title: "Du học Đức",
-  },
-  {
-    index: 4,
-    title: "Du học Úc",
-  },
-];
-
 const Students = () => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [images, setImages] = useState([]);
+
+  const { isLoading, file, handleUploadImg, handleGetImage } = useUploader()
+  const fileTypes = ["JPEG", "PNG", "GIF"];
+  const [selectFile, setFile] = useState(null)
+  const handleChange = (file) => {
+    setFile(file)
+    console.log(selectFile)
+    const formData = new FormData();
+    formData.append("files", selectFile)
+    formData.append("category", "du-hoc-han-quoc")
+    handleUploadImg(formData)
+  }
 
   useEffect(() => {
-    setImages(items);
-    setLoading(false);
-  }, []);
-
+    handleGetImage("du-hoc-han-quoc")
+  }, [])
+  console.log(file)
   return (
     <main id="main" data-aos="fade-up">
-      {loading? <LoadingScreen/> : null}
       <section className="breadcrumbs">
         <div className="container">
           <div className="d-flex justify-content-between align-items-center">
             <h2 style={{ fontWeight: "bold" }}>Góc Du Học Sinh</h2>
-
           </div>
         </div>
       </section>
 
-      <section className="inner-page">
-        <div className="container">
-          <p style={{ marginBottom: 30, marginTop: 30 }}>
-            Tổng hợp các thông tin du học Hàn Quốc mới nhất, cập nhật liên tục.
-            Giúp các bạn học sinh, sinh viên đến gần hơn với ước mơ du học của
-            mình.
-          </p>
+      <section className="inner-page-std">
 
-          <div className="row">
-            <div className="col-lg-8">
-              <Tabs
-                selectedIndex={selectedIndex}
-                onSelect={(tabIndex) => setSelectedIndex(tabIndex)}
-              >
-                <TabList>
-                  {tabs.map((tab) => (
-                    <Tab
-                      key={tab.index}
-                      style={{
-                        color:
-                          selectedIndex === tab.index ? "#2f9931" : "black",
-                        borderTop:
-                          selectedIndex === tab.index
-                            ? "2px solid #2f9931"
-                            : "none",
-                        borderLeft:
-                          selectedIndex === tab.index
-                            ? "2px solid #2f9931"
-                            : "none",
-                        borderRight:
-                          selectedIndex === tab.index
-                            ? "2px solid #2f9931"
-                            : "none",
-                        fontWeight:
-                          selectedIndex === tab.index ? "600" : "normal",
-                        fontFamily: "Roboto",
-                      }}
-                    >
-                      {tab.title}
-                    </Tab>
-                  ))}
-                </TabList>
-
-                {tabs &&
-                  tabs.map((tab, index) => {
-                    if (index === selectedIndex) {
-                      return (
-                        <TabPanel key={index}>
-                          <WSPGallery galleryImages={images} />
-                        </TabPanel>
-                      );
-                    }
-
-                    return <TabPanel>{tab}</TabPanel>;
-                  })}
-                <TabPanel></TabPanel>
-                <TabPanel>
-                  <h2>Any content 2</h2>
-                </TabPanel>
-                <TabPanel>
-                  <h2>Any content 3</h2>
-                </TabPanel>
-                <TabPanel>
-                  <h2>Any content 3</h2>
-                </TabPanel>
-                <TabPanel>
-                  <h2>Any content 3</h2>
-                </TabPanel>
-              </Tabs>
+        <h1
+          style={{
+            marginTop: 30,
+            marginBottom: 10
+          }}
+        >Đăng tải ảnh</h1>
+        <hr style={{ color: "#909690" }} />
+        <FileUploader 
+          multiple={true}
+          handleChange={()=>handleChange()}
+          name="file"
+          types={fileTypes}
+        >
+          <div className="dropImages">
+            <div className="iconUpload">
+              <img src={Upload} alt="upload-icon" />
+              <p
+                style={{ fontWeight: '600', fontSize: 20 }}
+              >Nhấn vào để đăng ảnh</p>
             </div>
-
-            <Fanpage />
           </div>
+        </FileUploader>
+
+
+
+        <div className="attached-files">
+          <div className="wrap-file">
+            <h4>Tệp đính kèm</h4>
+            <p style={{ fontSize: 12, paddingTop: 5, color: "#909690" }}>Các tệp tin và ảnh đã được đính kèm vào dự án</p>
+          </div>
+          <div>
+            <ul className="header-box">
+              <li className="header-list"><h5>Tên tệp</h5></li>
+              <li className="header-list"><h5>Xem trước</h5></li>
+              <li className="header-list"><h5>Dung Lượng</h5></li>
+              <li className="header-list"><h5>Ngày đăng</h5></li>
+              <li className="header-list"></li>
+            </ul>
+          </div>
+          <div className="imgList-std">
+            {items.map((items) => (
+              <div key={items._id}
+
+              >
+                <ul className="items-std">
+                  <li className="list-items"><p>Test-img.png</p></li>
+                  <li className="list-items"><img src={items.img} alt="" className="img-std" width={87} height={60} /></li>
+                  <li className="list-items"><p>200KBs</p></li>
+                  <li className="list-items">05/01/2023</li>
+                  <li className="list-items">
+                    <div style={{ display: 'flex', alightItems: 'center' }}>
+                      <img src={Delete} alt="" />
+                      <p style={{ color: 'red' }}>Xóa ảnh</p>
+                    </div>
+                  </li>
+                  <li className="list-items">
+                    <div style={{ display: 'flex', alightItems: 'center' }}>
+                      <img src={Editbtn} alt="" />
+                      <p style={{ color: '#2f9931', marginLeft: 5 }}>Chỉnh sửa</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            ))}
+          </div>
+
         </div>
       </section>
-    </main>
+    </main >
   );
 };
 

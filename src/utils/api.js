@@ -1,7 +1,7 @@
 const GET_API = ({ page, cat, type, id }) => {
   return {
     userById: `/user/${id}`,
-
+    getImage:`images?category=${cat}`,
     getPost: `/posts?page=${page}&category=${cat}&type=${type}`,
     getNews: `/posts?page=${page}&category=${cat}`,
   };
@@ -12,6 +12,7 @@ const POST_API = () => {
     createUserAccount: `/user`,
     createPost: "/post",
     login: "/login",
+    uploader:"/images"
   };
 };
 

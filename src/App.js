@@ -7,10 +7,9 @@ function App() {
   const passwordData = localStorage.getItem("password")
   return (
     <>
-      {!emailData && !passwordData ? <Login /> : <StackNavigate />}
+      {emailData && passwordData ? <StackNavigate /> : <Login/>}
     </>
   );
 }
-
 
 export default App;

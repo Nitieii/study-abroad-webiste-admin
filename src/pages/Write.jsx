@@ -12,6 +12,7 @@ import "../style/style.css";
 import "react-dropdown/style.css";
 import LoadingScreen from "../components/LoadingScreen";
 import useAlert from "../hooks/useAlert";
+import { Hidden } from "@mui/material";
 
 ReactQuill.Quill.register("modules/imageResize", ImageResize);
 
@@ -138,6 +139,7 @@ const Write = () => {
                 theme="snow"
                 value={value}
                 onChange={setValue}
+                overflow={Hidden}
                 modules={{
                   toolbar: toolbarOptions,
                   imageResize: {

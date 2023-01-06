@@ -54,14 +54,27 @@ const Information = () => {
     isLoading,
     type,
     handleChangeSetType,
-    totalPage
+    totalPage,
   } = usePost();
   const cat = "thong-tin-du-hoc";
   // const type = 'du-hoc-han-quoc'
+  // const informationPost = post.filter(item => item.category === "thong-tin-du-hoc" && item.type === type)
+  // console.log(informationPost)
+  const inforpost = post.filter((item) => item._id);
+  // const getPost = () => {
+  //   handleGetPost(currentPage,cat,type)
+  // }
+  console.log(inforpost);
   useEffect(() => {
-    handleGetPost(currentPage, cat, type);
-  }, [currentPage,type]);
-
+    let isCancelled = false;
+    if (!isCancelled) {
+      handleGetPost(currentPage, cat, type);
+    }
+    return () => {
+      isCancelled =true
+    }
+    // getPost()
+  }, [currentPage, type]);
 
   const handleAlertDeletePost = (id) => {
     confirmAlert({
@@ -135,7 +148,7 @@ const Information = () => {
                 {tabs &&
                   tabs.map((tab, index) => {
                     if (index === selectedIndex) {
-                      handleChangeSetType(tab.type)
+                      handleChangeSetType(tab.type);
 
                       return (
                         <TabPanel key={index}>
@@ -259,24 +272,25 @@ const Information = () => {
               </Tabs>
 
               {/* Load more button */}
-              {currentPage < totalPage ? <div className="row ">
-                <div className="col-md-12 d-flex align-items-center justify-content-center">
-                  <button
-                    className="btn btn-primary"
-                    style={{
-                      marginTop: 30,
-                      marginBottom: 30,
-                      fontSize: 18,
-                      paddingLeft: 30,
-                      paddingRight: 30,
-                    }}
-                    onClick={() => setCurrentPage(currentPage + 1)}
-                  >
-                    Xem Thêm
-                  </button>
+              {currentPage < totalPage ? (
+                <div className="row ">
+                  <div className="col-md-12 d-flex align-items-center justify-content-center">
+                    <button
+                      className="btn btn-primary"
+                      style={{
+                        marginTop: 30,
+                        marginBottom: 30,
+                        fontSize: 18,
+                        paddingLeft: 30,
+                        paddingRight: 30,
+                      }}
+                      onClick={() => setCurrentPage(currentPage + 1)}
+                    >
+                      Xem Thêm
+                    </button>
+                  </div>
                 </div>
-              </div> : null}
-
+              ) : null}
             </div>
 
             {/* <Fanpage /> */}

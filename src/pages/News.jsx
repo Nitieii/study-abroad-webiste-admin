@@ -9,15 +9,20 @@ import "../style/style.css";
 import Edit from "../img/edit.png";
 import DeleteIcon from "../img/delete.png";
 import { confirmAlert } from "react-confirm-alert";
+import usePost from "../hooks/usePost";
 
 const News = () => {
-  const { news, handleGetNews, isLoading, handleDeleteNews, totalPage } = useNews();
+  const { news, handleGetNews, isLoading, handleDeleteNews, totalPage } =
+    useNews();
+
   const [currentPage, setCurrentPage] = useState(1);
+
   const cat = "tin-tuc";
   useEffect(() => {
     handleGetNews(currentPage, cat);
   }, [currentPage]);
   // console.log(totalPage)
+
   const handleAlertDeleteNews = (id) => {
     confirmAlert({
       title: "Bạn có chắc muốn xóa bài?",
@@ -34,7 +39,6 @@ const News = () => {
   };
 
   return (
-
     <main id="main" data-aos="fade-up">
       {isLoading ? <LoadingScreen /> : null}
       <section className="breadcrumbs">
@@ -135,24 +139,25 @@ const News = () => {
           })}
 
           {/* Load more button */}
-          {currentPage < totalPage ? <div className="row ">
-            <div className="col-md-12 d-flex align-items-center justify-content-center">
-              <button
-                className="btn btn-primary"
-                style={{
-                  marginTop: 30,
-                  marginBottom: 30,
-                  fontSize: 18,
-                  paddingLeft: 30,
-                  paddingRight: 30,
-                }}
-                onClick={()=>setCurrentPage(currentPage + 1)}
-              >
-                Xem Thêm
-              </button>
+          {currentPage < totalPage ? (
+            <div className="row ">
+              <div className="col-md-12 d-flex align-items-center justify-content-center">
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    marginTop: 30,
+                    marginBottom: 30,
+                    fontSize: 18,
+                    paddingLeft: 30,
+                    paddingRight: 30,
+                  }}
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  Xem Thêm
+                </button>
+              </div>
             </div>
-          </div> : null}
-          
+          ) : null}
         </div>
       </section>
     </main>

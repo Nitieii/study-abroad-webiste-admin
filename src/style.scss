@@ -331,7 +331,7 @@ $lightGreen: #b9e7e7;
         .editorContainer {
           height: 500px;
           width: 100%;
-          overflow: scroll;
+          overflow: hidden;
           border: 1px solid lightgray;
 
           .editor {

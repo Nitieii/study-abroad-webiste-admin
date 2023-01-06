@@ -1,6 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
 import axiosInstance from "../utils/axios";
-import { POST_API } from "../utils/api";
+import { POST_API, GET_API } from "../utils/api";
+import { useNavigate } from "react-router-dom";
+import  useAlert  from './useAlert'
 import {
   SET_USER,
   HANDLE_LOADING,
@@ -13,6 +15,7 @@ const useAuthentication = () => {
   const dispatch = useDispatch();
   const { isLoading, isAuthenticated, user, email, password } = useSelector((state) => state.auth);
 
+  const { enqueueSnackbar } = useAlert();
 
   const handleLogin = async (inputs) => {
     try {
@@ -27,9 +30,12 @@ const useAuthentication = () => {
           window.location.reload()
         }
 
+        // getUser(res.data.data)
+         enqueueSnackbar("Đăng nhập thành công", { variant: "success" });
+     
         dispatch(HANDLE_LOADING(false));
       } else {
-        alert("Sai thong tin dang nhap!!");
+         enqueueSnackbar("Sai thông tin đăng nhập", { variant: "error" });
       }
     } catch (error) {
       dispatch(HANDLE_LOADING(false));

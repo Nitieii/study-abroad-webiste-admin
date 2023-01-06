@@ -20,7 +20,7 @@ const usePost = () => {
 
   const handleGetPost = async (page, cat, type) => {
     dispatch(HANDLE_LOADING(true));
-    try {
+    try { 
       const res = await axiosInstance.get(
         GET_API({ page: page, cat: cat, type: type }).getPost
       );
@@ -28,12 +28,10 @@ const usePost = () => {
       if (res.data.status === "success") {
         dispatch(GET_TOTALPAGE(res.data.totalPage));
         if (page == 1) {
-          console.log(res.data.posts);
           dispatch(GET_POST(res.data.posts));
         } else {
           const newArray = [...post, ...res.data.posts];
           dispatch(GET_POST(newArray));
-          console.log(newArray);
         }
       }
       dispatch(HANDLE_LOADING(false));
@@ -49,7 +47,6 @@ const usePost = () => {
         headers: { "Content-type": "multipart/form-data" },
       });
       // dispatch(SET_POST(res.data));
-      console.log(res.data);
       if (res.data.status === "success") {
         enqueueSnackbar("Tạo bài viết thành công", { variant: "success" });
         navigate("/thong-tin-du-hoc-sinh");

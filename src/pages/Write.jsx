@@ -11,9 +11,6 @@ import ReactDropdown from "react-dropdown";
 import "../style/style.css";
 import "react-dropdown/style.css";
 import LoadingScreen from "../components/LoadingScreen";
-// // import { useFormik } from "formik";
-// import * as yup from "yup";
-// import { Formik, useFormik, FormikProvider, Form } from "formik";
 import useAlert from "../hooks/useAlert";
 import { Hidden } from "@mui/material";
 

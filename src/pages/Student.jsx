@@ -1,166 +1,139 @@
 import { useEffect, useState } from "react";
-import WSPGallery from "../components/Gallery";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
-import Fanpage from "../components/Fanpage";
 import LoadingScreen from "../components/LoadingScreen";
-
-const items = [
-  {
-    _id: 1,
-    img: "https://duhocaddie.com/wp-content/uploads/2019/11/66323330_2377842775571114_8500744317583753216_n.jpg",
-  },
-  {
-    _id: 2,
-    img: "https://havico.edu.vn/wp-content/uploads/2021/08/Du-hoc-han-quoc-1.png",
-  },
-  {
-    _id: 3,
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1b2pqaljJTfEo3t0bj9RMGAErAOPXHs9xg&usqp=CAU",
-  },
-  {
-    _id: 4,
-    img: "https://duhocvietglobal.com/wp-content/uploads/2019/03/quydinh_visaHQ.jpg",
-  },
-  {
-    _id: 6,
-    img: "https://vcdn1-vnexpress.vnecdn.net/2019/12/14/shutterstock-583601698-1576341-1633-5877-1576341968.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=3rCx3Y_inqV2AEm_DAR5Qw",
-  },
-  {
-    _id: 7,
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUTyfva_bD7HBix_a8ce2EsaeoblMz3vh6gA&usqp=CAU",
-  },
-  {
-    _id: 8,
-    img: "https://duhoc.thanhgiang.com.vn/sites/default/files/kho-khan-khi-du-hoc-han-quoc.jpg",
-  },
-  {
-    _id: 9,
-    img: "https://korea.net.vn/wp-content/uploads/2018/02/du-h%E1%BB%8Dc-sinh-hàn-quốc-e1589186665505.jpg",
-  },
-];
-
-const tabs = [
-  {
-    index: 0,
-    title: "Du học Hàn Quốc",
-  },
-  {
-    index: 1,
-    title: "Du học Đài Loan",
-  },
-  {
-    index: 2,
-    title: "Du học Trung Quốc",
-  },
-  {
-    index: 3,
-    title: "Du học Đức",
-  },
-  {
-    index: 4,
-    title: "Du học Úc",
-  },
-];
+import "../style/style.css"
+import Upload from "../img/uploadicon.png"
+import Delete from "../img/deletebtn.png"
+import Editbtn from "../img/editbtn.png"
+import useUploader from "../hooks/useUploader";
+import ReactDropdown from "react-dropdown";
+import "react-dropdown/style.css";
 
 const Students = () => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [images, setImages] = useState([]);
 
+  const { isLoading, file, handleUploadImg, handleGetImage, handleDeleteImage } = useUploader()
+  const fileTypes = ["JPEG", "PNG", "GIF"];
+  const [selectFile, setFile] = useState(null)
+  const [cat, setCat] = useState("du-hoc-han-quoc")
+  const DropdownOptions = [
+    { value: "du-hoc-han-quoc", label: "Du học Hàn Quốc" },
+    { value: "du-hoc-dai-loan", label: "Du học Đài Loan" },
+    { value: "du-hoc-trung-quoc", label: "Du hoc Trung Quốc" },
+    { value: "du-hoc-uc", label: "Du hoc Úc" },
+    { value: "du-hoc-duc", label: "Du hoc Đức" },
+  ];
+
+  const handleChange = (file) => {
+    setFile(file.target.files[0])
+    // console.log(selectFile)
+  }
+
+  const handleSubmit = () => {
+    const formData = new FormData();
+    formData.append("files", selectFile)
+    formData.append("category", cat)
+    handleUploadImg(formData)
+  }
   useEffect(() => {
-    setImages(items);
-    setLoading(false);
-  }, []);
+    handleGetImage("du-hoc-han-quoc")
+  }, [])
+  console.log(file)
 
   return (
     <main id="main" data-aos="fade-up">
-      {loading? <LoadingScreen/> : null}
+      {isLoading ? <LoadingScreen /> : null}
       <section className="breadcrumbs">
         <div className="container">
           <div className="d-flex justify-content-between align-items-center">
             <h2 style={{ fontWeight: "bold" }}>Góc Du Học Sinh</h2>
-
           </div>
         </div>
       </section>
 
-      <section className="inner-page">
-        <div className="container">
-          <p style={{ marginBottom: 30, marginTop: 30 }}>
-            Tổng hợp các thông tin du học Hàn Quốc mới nhất, cập nhật liên tục.
-            Giúp các bạn học sinh, sinh viên đến gần hơn với ước mơ du học của
-            mình.
-          </p>
+      <section className="inner-page-std">
 
-          <div className="row">
-            <div className="col-lg-8">
-              <Tabs
-                selectedIndex={selectedIndex}
-                onSelect={(tabIndex) => setSelectedIndex(tabIndex)}
+        <h1
+          style={{
+            marginTop: 30,
+            marginBottom: 10
+          }}
+        >Đăng tải ảnh</h1>
+        <hr style={{ color: "#909690" }} />
+
+        <input type="file" name="file" id="file" multiple accept="image/*" style={{ display: 'none' }} onChange={handleChange} />
+        <div className="dropImages">
+          <div >
+            <label htmlFor="file" className="iconUpload">
+              <img src={Upload} alt="upload-icon" />
+              <p
+                style={{ fontWeight: '600', fontSize: 20 }}
+              >Nhấn vào để đăng ảnh</p>
+            </label>
+
+          </div>
+        </div>
+        <div className="submit">
+          <div className="dropdown">
+            <ReactDropdown
+              className="dropdownOptions"
+              options={DropdownOptions}
+              value={cat}
+              onChange={(e) => setCat(e.value)}
+            />
+          </div>
+          <div className="btn-submit" onClick={handleSubmit}>
+            <p style={{ color: 'white' }}>Đăng ảnh</p>
+          </div>
+        </div>
+
+
+        <div className="attached-files">
+          <div className="wrap-file">
+            <h4>Tệp đính kèm</h4>
+            <p style={{ fontSize: 12, paddingTop: 5, color: "#909690" }}>Các tệp tin và ảnh đã được đính kèm vào dự án</p>
+          </div>
+          <div>
+            <ul className="header-box">
+              <li className="header-list"><h5>Tên tệp</h5></li>
+              <li className="header-list"><h5>Xem trước</h5></li>
+              <li className="header-list"><h5>Dung Lượng</h5></li>
+              <li className="header-list"><h5>Ngày đăng</h5></li>
+              <li className="header-list"></li>
+            </ul>
+          </div>
+          <div className="imgList-std">
+            {file.map((items) => (
+              <div key={items._id}
+
               >
-                <TabList>
-                  {tabs.map((tab) => (
-                    <Tab
-                      key={tab.index}
-                      style={{
-                        color:
-                          selectedIndex === tab.index ? "#2f9931" : "black",
-                        borderTop:
-                          selectedIndex === tab.index
-                            ? "2px solid #2f9931"
-                            : "none",
-                        borderLeft:
-                          selectedIndex === tab.index
-                            ? "2px solid #2f9931"
-                            : "none",
-                        borderRight:
-                          selectedIndex === tab.index
-                            ? "2px solid #2f9931"
-                            : "none",
-                        fontWeight:
-                          selectedIndex === tab.index ? "600" : "normal",
-                        fontFamily: "Roboto",
-                      }}
-                    >
-                      {tab.title}
-                    </Tab>
-                  ))}
-                </TabList>
-
-                {tabs &&
-                  tabs.map((tab, index) => {
-                    if (index === selectedIndex) {
-                      return (
-                        <TabPanel key={index}>
-                          <WSPGallery galleryImages={images} />
-                        </TabPanel>
-                      );
-                    }
-
-                    return <TabPanel>{tab}</TabPanel>;
-                  })}
-                <TabPanel></TabPanel>
-                <TabPanel>
-                  <h2>Any content 2</h2>
-                </TabPanel>
-                <TabPanel>
-                  <h2>Any content 3</h2>
-                </TabPanel>
-                <TabPanel>
-                  <h2>Any content 3</h2>
-                </TabPanel>
-                <TabPanel>
-                  <h2>Any content 3</h2>
-                </TabPanel>
-              </Tabs>
-            </div>
-
-            <Fanpage />
+                <ul className="items-std">
+                  <li className="list-items"><p>Test-img.png</p></li>
+                  <li className="list-items"><img src={items?.url} alt="" className="img-std" width={87} height={60} /></li>
+                  <li className="list-items"><p>200KBs</p></li>
+                  <li className="list-items">05/01/2023</li>
+                  <li className="list-items">
+                    <a 
+                    style={{ display: 'flex', alightItems: 'center' }} 
+                    onClick={() => {
+                      handleDeleteImage(items._id)
+                    }}>
+                      <img src={Delete} alt="" />
+                      <p style={{ color: 'red' }}>Xóa ảnh</p>
+                    </a>
+                  </li>
+                  <li className="list-items">
+                    <div style={{ display: 'flex', alightItems: 'center' }}>
+                      <img src={Editbtn} alt="" />
+                      <p style={{ color: '#2f9931', marginLeft: 5 }}>Chỉnh sửa</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            ))}
           </div>
+
         </div>
       </section>
-    </main>
+    </main >
   );
 };
 

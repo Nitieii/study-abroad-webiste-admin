@@ -185,7 +185,7 @@ a{
 
 h5{
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 550;
 }
 
 .img-std{
@@ -196,8 +196,8 @@ h5{
   list-style-type: none;
   display: flex;
   padding: 10px 0;
-  border-bottom: 1px solid #909690;
-  border-top: 1px solid #909690;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
 }
 .header-list{
   width: calc(100%/6);
@@ -212,7 +212,25 @@ h5{
   justify-content: center;
   margin: 10px 0;
 }
-#myImg1 {
-  background: url('http://41.media.tumblr.com/9a0887e02276397170e196758c9137b6/tumblr_nymyp5VQQE1tgso5po1_500.jpg') no-repeat center;
-  background-size: cover;
+
+.form-upload{
+  margin: 0 !important;
+  width: 100% !important; 
+  height: fit-content !important;
+}
+
+.btn-submit{
+  border: 1px solid #2f9931;
+  width: fit-content;
+  padding: 5px;
+  background-color: #2f9931;
+  border-radius: 8px;
+}
+
+.submit{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 28%;
+  margin-left: auto;
 }

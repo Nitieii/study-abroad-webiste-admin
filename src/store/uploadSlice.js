@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    isLoadding: false,
+    isLoading: false,
     file: []
 }
 
@@ -10,15 +10,18 @@ const Slice = createSlice({
     initialState: initialState,
     reducers: {
         HANDLE_LOADING: (state, action) => {
-            state.isLoadding = action.payload
+            state.isLoading = action.payload
         },
-        SET_UPLOAD: (state, action) => {
+        SET_UPLOAD: (state, action) => void(
             state.file = action.payload
-        }
+        ),
+        HANDLE_DELETE: (state, action) => void(
+            state.file = state.file.filter(file => file._id !== action.payload)
+        )
     }
 })
 
 const { reducer, actions } = Slice;
 
-export const { HANDLE_LOADING, SET_UPLOAD } = actions
+export const { HANDLE_LOADING, SET_UPLOAD, HANDLE_DELETE } = actions
 export default reducer

@@ -5,63 +5,42 @@ import Upload from "../img/uploadicon.png"
 import Delete from "../img/deletebtn.png"
 import Editbtn from "../img/editbtn.png"
 import useUploader from "../hooks/useUploader";
-import { FileUploader } from "react-drag-drop-files";
-
-const items = [
-  {
-    _id: 1,
-    img: "https://duhocaddie.com/wp-content/uploads/2019/11/66323330_2377842775571114_8500744317583753216_n.jpg",
-  },
-  {
-    _id: 2,
-    img: "https://havico.edu.vn/wp-content/uploads/2021/08/Du-hoc-han-quoc-1.png",
-  },
-  {
-    _id: 3,
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1b2pqaljJTfEo3t0bj9RMGAErAOPXHs9xg&usqp=CAU",
-  },
-  {
-    _id: 4,
-    img: "https://duhocvietglobal.com/wp-content/uploads/2019/03/quydinh_visaHQ.jpg",
-  },
-  {
-    _id: 6,
-    img: "https://vcdn1-vnexpress.vnecdn.net/2019/12/14/shutterstock-583601698-1576341-1633-5877-1576341968.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=3rCx3Y_inqV2AEm_DAR5Qw",
-  },
-  {
-    _id: 7,
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUTyfva_bD7HBix_a8ce2EsaeoblMz3vh6gA&usqp=CAU",
-  },
-  {
-    _id: 8,
-    img: "https://duhoc.thanhgiang.com.vn/sites/default/files/kho-khan-khi-du-hoc-han-quoc.jpg",
-  },
-  {
-    _id: 9,
-    img: "https://korea.net.vn/wp-content/uploads/2018/02/du-h%E1%BB%8Dc-sinh-hàn-quốc-e1589186665505.jpg",
-  },
-];
+import ReactDropdown from "react-dropdown";
+import "react-dropdown/style.css";
 
 const Students = () => {
 
-  const { isLoading, file, handleUploadImg, handleGetImage } = useUploader()
+  const { isLoading, file, handleUploadImg, handleGetImage, handleDeleteImage } = useUploader()
   const fileTypes = ["JPEG", "PNG", "GIF"];
   const [selectFile, setFile] = useState(null)
+  const [cat, setCat] = useState("du-hoc-han-quoc")
+  const DropdownOptions = [
+    { value: "du-hoc-han-quoc", label: "Du học Hàn Quốc" },
+    { value: "du-hoc-dai-loan", label: "Du học Đài Loan" },
+    { value: "du-hoc-trung-quoc", label: "Du hoc Trung Quốc" },
+    { value: "du-hoc-uc", label: "Du hoc Úc" },
+    { value: "du-hoc-duc", label: "Du hoc Đức" },
+  ];
+
   const handleChange = (file) => {
-    setFile(file)
-    console.log(selectFile)
-    const formData = new FormData();
-    formData.append("files", selectFile)
-    formData.append("category", "du-hoc-han-quoc")
-    handleUploadImg(formData)
+    setFile(file.target.files[0])
+    // console.log(selectFile)
   }
 
+  const handleSubmit = () => {
+    const formData = new FormData();
+    formData.append("files", selectFile)
+    formData.append("category", cat)
+    handleUploadImg(formData)
+  }
   useEffect(() => {
     handleGetImage("du-hoc-han-quoc")
   }, [])
   console.log(file)
+
   return (
     <main id="main" data-aos="fade-up">
+      {isLoading ? <LoadingScreen /> : null}
       <section className="breadcrumbs">
         <div className="container">
           <div className="d-flex justify-content-between align-items-center">
@@ -79,22 +58,32 @@ const Students = () => {
           }}
         >Đăng tải ảnh</h1>
         <hr style={{ color: "#909690" }} />
-        <FileUploader 
-          multiple={true}
-          handleChange={()=>handleChange()}
-          name="file"
-          types={fileTypes}
-        >
-          <div className="dropImages">
-            <div className="iconUpload">
+
+        <input type="file" name="file" id="file" multiple accept="image/*" style={{ display: 'none' }} onChange={handleChange} />
+        <div className="dropImages">
+          <div >
+            <label htmlFor="file" className="iconUpload">
               <img src={Upload} alt="upload-icon" />
               <p
                 style={{ fontWeight: '600', fontSize: 20 }}
               >Nhấn vào để đăng ảnh</p>
-            </div>
-          </div>
-        </FileUploader>
+            </label>
 
+          </div>
+        </div>
+        <div className="submit">
+          <div className="dropdown">
+            <ReactDropdown
+              className="dropdownOptions"
+              options={DropdownOptions}
+              value={cat}
+              onChange={(e) => setCat(e.value)}
+            />
+          </div>
+          <div className="btn-submit" onClick={handleSubmit}>
+            <p style={{ color: 'white' }}>Đăng ảnh</p>
+          </div>
+        </div>
 
 
         <div className="attached-files">
@@ -112,20 +101,24 @@ const Students = () => {
             </ul>
           </div>
           <div className="imgList-std">
-            {items.map((items) => (
+            {file.map((items) => (
               <div key={items._id}
 
               >
                 <ul className="items-std">
                   <li className="list-items"><p>Test-img.png</p></li>
-                  <li className="list-items"><img src={items.img} alt="" className="img-std" width={87} height={60} /></li>
+                  <li className="list-items"><img src={items?.url} alt="" className="img-std" width={87} height={60} /></li>
                   <li className="list-items"><p>200KBs</p></li>
                   <li className="list-items">05/01/2023</li>
                   <li className="list-items">
-                    <div style={{ display: 'flex', alightItems: 'center' }}>
+                    <a 
+                    style={{ display: 'flex', alightItems: 'center' }} 
+                    onClick={() => {
+                      handleDeleteImage(items._id)
+                    }}>
                       <img src={Delete} alt="" />
                       <p style={{ color: 'red' }}>Xóa ảnh</p>
-                    </div>
+                    </a>
                   </li>
                   <li className="list-items">
                     <div style={{ display: 'flex', alightItems: 'center' }}>

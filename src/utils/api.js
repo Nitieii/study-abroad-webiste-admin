@@ -24,7 +24,8 @@ const UPDATE_API = (id) => {
 
 const DELETE_API = (id) => {
   return {
-    deletePost: `post/${id}`,
+    deletePost: `/post/${id}`,
+    deleteImage: `/image/${id}`
   };
 };
 

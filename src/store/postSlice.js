@@ -23,12 +23,16 @@ const slice = createSlice({
     GET_TOTALPAGE: (state, action) => {
       state.totalPage = action.payload;
     },
+    DELETE_POST: (state, actions) => void (
+      state.post = state.post.filter(e => e._id !== actions.payload)
+    )
+
   },
 });
 
 const { reducer, actions } = slice;
 
-export const { GET_POST, HANDLE_LOADING, HANDLE_SET_TYPE, GET_TOTALPAGE } =
+export const { GET_POST, HANDLE_LOADING, HANDLE_SET_TYPE, GET_TOTALPAGE, DELETE_POST } =
   actions;
 
 export default reducer;

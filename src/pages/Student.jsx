@@ -60,7 +60,7 @@ const Students = () => {
   useEffect(() => {
     handleGetImage("du-hoc-han-quoc")
   }, [])
-console.log(file)
+  console.log(file)
   return (
     <main id="main" data-aos="fade-up">
       {isLoading ? <LoadingScreen /> : null}
@@ -95,33 +95,37 @@ console.log(file)
         </div>
           :
           <div className="wrap-box">
-          <div className="preview-box">
-            {preview.map((img, index) => (
-              <div key={index} style={{ position: 'relative', marginRight:15 }}>
-                <img src={img?.url} alt="" className="preView-img" />
-                <img src={CloseBtn} alt="" className="close-btn" onClick={()=>void(
-                  preview.filter(()=>index)
-                )}/>
-              </div>
-            ))}
+            <div className="preview-box">
+              {preview.map((img, index) => (
+                <div key={index} style={{ position: 'relative', marginRight: 15 }}>
+                  <img src={img?.url} alt="" className="preView-img" />
+                  <img src={CloseBtn} alt="" className="close-btn" onClick={() => void (
+                    preview.filter(() => index)
+                  )} />
+                </div>
+              ))}
+            </div>
           </div>
-          </div>
-          
+
         }
 
-        <div className="submit">
-          <div className="dropdown">
-            <ReactDropdown
-              className="dropdownOptions"
-              options={DropdownOptions}
-              value={cat}
-              onChange={(e) => setCat(e.value)}
-            />
+        {preview.length !== 0 ?
+          <div className="submit">
+            <div className="dropdown">
+              <ReactDropdown
+                className="dropdownOptions"
+                options={DropdownOptions}
+                value={cat}
+                onChange={(e) => setCat(e.value)}
+              />
+            </div>
+            <div className="btn-submit" onClick={handleSubmit}>
+              <p style={{ color: 'white' }}>Đăng ảnh</p>
+            </div>
           </div>
-          <div className="btn-submit" onClick={handleSubmit}>
-            <p style={{ color: 'white' }}>Đăng ảnh</p>
-          </div>
-        </div>
+          : null
+        }
+
 
 
         <div className="attached-files">

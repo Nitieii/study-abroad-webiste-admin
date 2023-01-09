@@ -3,12 +3,15 @@ import postReducer from './postSlice'
 import authReducer from './authSlice'
 import newsReducer from './newSlice'
 import uploadReducer from "./uploadSlice"
+import CultureSlice from "./culSlice";
+
 
 const rootReducer = {
   post: postReducer,
   auth: authReducer,
   news: newsReducer,
   uploader: uploadReducer,
+  culture: CultureSlice,
 };
 
 export default configureStore({

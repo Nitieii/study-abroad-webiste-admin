@@ -59,14 +59,14 @@ const usePost = () => {
     }
   };
 
-  const handleEditPost = async (id, form) => {
+  const handleEditPost = async (id, form, cat) => {
     dispatch(HANDLE_LOADING(true));
     try {
       const res = await axiosInstance.put(UPDATE_API(id).updatePost, form);
       enqueueSnackbar("Chỉnh sửa bài viết thành công", {
         variant: "success",
       });
-      navigate("/thong-tin-du-hoc-sinh");
+      navigate(`/${cat}`);
       dispatch(HANDLE_LOADING(false));
     } catch (error) {
       console.log("error", error);

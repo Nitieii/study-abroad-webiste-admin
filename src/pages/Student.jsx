@@ -3,7 +3,6 @@ import LoadingScreen from "../components/LoadingScreen";
 import "../style/style.css"
 import Upload from "../img/uploadicon.png"
 import Delete from "../img/deletebtn.png"
-import Editbtn from "../img/editbtn.png"
 import useUploader from "../hooks/useUploader";
 import ReactDropdown from "react-dropdown";
 import "react-dropdown/style.css";
@@ -13,6 +12,8 @@ const Students = () => {
   const { isLoading, file, handleUploadImg, handleGetImage, handleDeleteImage, handleLoadIMG } = useUploader()
   const [cat, setCat] = useState("du-hoc-han-quoc")
   const [preview, setPreview] = useState([])
+  const [selectFile, setFile] = useState([])
+
   const DropdownOptions = [
     { value: "du-hoc-han-quoc", label: "Du học Hàn Quốc" },
     { value: "du-hoc-dai-loan", label: "Du học Đài Loan" },
@@ -20,6 +21,18 @@ const Students = () => {
     { value: "du-hoc-uc", label: "Du hoc Úc" },
     { value: "du-hoc-duc", label: "Du hoc Đức" },
   ];
+  const fileList = Array.from(selectFile)
+
+  const deletePre = (e) => {
+    setPreview(preview.filter((val)=> val.name !== e))
+    for(let i = 0; i < fileList.length; i++){
+      if(fileList[i].name === e){
+        fileList.splice(i, 1)
+        // console.log(fileList[i].name)
+      }
+    }
+    setFile(fileList)
+  }
 
   const handleChange = (e) => {
     if (e.target.files.length !== 0) {
@@ -27,39 +40,33 @@ const Students = () => {
       const createAt = new Date();
       for (let i = 0; i < e.target.files.length; i++) {
         const preImg = {
-          _id: createAt.getTime(),
           url: URL.createObjectURL(e.target.files[i]),
           category: cat,
           name: e.target.files[i].name,
           createAt: createAt.getDate(),
-          size: e.target.files[i].size
+          size: e.target.files[i].size,
+          _id: Math.random()*123
         }
-        objectFile.push(preImg)
+        objectFile.push(preImg) 
       }
       setPreview(objectFile)
     }
 
     setFile(e.target.files)
-    console.log(e.target.files)
-    console.log(preview)
   }
-  const [selectFile, setFile] = useState([])
   const handleSubmit = () => {
     const formData = new FormData();
     formData.append("category", cat)
     for (let i = 0; i < selectFile.length; i++) {
       formData.append("files", selectFile[i])
     }
-    handleUploadImg(formData)
-    for (let i = 0; i < preview.length; i++) {
-      console.log(preview[i])
-    }
-    // handleLoadIMG(preview)
+    handleUploadImg(formData, preview)
     setPreview([])
   }
   useEffect(() => {
     handleGetImage("du-hoc-han-quoc")
   }, [])
+
   console.log(file)
   return (
     <main id="main" data-aos="fade-up">
@@ -98,10 +105,11 @@ const Students = () => {
             <div className="preview-box">
               {preview.map((img, index) => (
                 <div key={index} style={{ position: 'relative', marginRight: 15 }}>
-                  <img src={img?.url} alt="" className="preView-img" />
-                  <img src={CloseBtn} alt="" className="close-btn" onClick={() => void (
-                    preview.filter(() => index)
-                  )} />
+                  <img src={img?.url} alt="" className="preView-img" onClick={()=>{console.log(selectFile)}} />
+                  <a onClick={()=>{deletePre(img.name)}}>
+                    <img src={CloseBtn} alt="" className="close-btn" />
+                  </a>
+
                 </div>
               ))}
             </div>
@@ -125,8 +133,6 @@ const Students = () => {
           </div>
           : null
         }
-
-
 
         <div className="attached-files">
           <div className="wrap-file">
@@ -160,13 +166,7 @@ const Students = () => {
                       <img src={Delete} alt="" />
                       <p style={{ color: 'red' }}>Xóa ảnh</p>
                     </a>
-                  </li>
-                  <li className="list-items">
-                    <div style={{ display: 'flex', alightItems: 'center' }}>
-                      <img src={Editbtn} alt="" />
-                      <p style={{ color: '#2f9931', marginLeft: 5 }}>Chỉnh sửa</p>
-                    </div>
-                  </li>
+                  </li>                  
                 </ul>
               </div>
             ))}

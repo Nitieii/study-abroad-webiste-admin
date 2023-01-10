@@ -7,14 +7,14 @@ import axios from "axios";
 const useUploader = () => {
     const dispatch = useDispatch();;
     const { isLoading, file } = useSelector(state => state.uploader)
-    const handleUploadImg = async (formData) => {
+    const handleUploadImg = async (formData, array) => {
         dispatch(HANDLE_LOADING(true))
         try {
             const res = await axiosInstance.post(POST_API().uploader, formData, {
                 headers: { "Content-type": "multipart/form-data" },
             })
             if (res.data.status === "success") {
-                console.log(res)
+                dispatch(SET_UPLOAD(array))
             }
             dispatch(HANDLE_LOADING(false))
         } catch (e) {
@@ -50,20 +50,13 @@ const useUploader = () => {
             dispatch(HANDLE_LOADING(false))
         }
     }
-    const handleLoadIMG = async(file)=>{
-        try{
-            dispatch(handleLoadIMG(file))
-        }catch(e){
-            console.log(e)
-        }
-    }
+
     return {
         isLoading,
         file,
         handleUploadImg,
         handleGetImage,
         handleDeleteImage,
-        handleLoadIMG
     }
 }
 

@@ -134,7 +134,7 @@ const Culture = () => {
                                                             >
                                                                 <div className="col-md-4 cul-img">
                                                                     <img
-                                                                        src={item?.thumbnail}
+                                                                        src={item?.thumbnail_url}
                                                                         alt=""
                                                                         style={{
                                                                             width: "100%",

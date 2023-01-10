@@ -13,12 +13,8 @@ const Slice = createSlice({
             state.isLoading = action.payload
         },
         SET_UPLOAD: (state, action) => {
-            const updateState = {
-                url: action.payload.url,
-                category: action.payload.category,
-                name: action.payload.name
-            }
-            state.file.push(updateState)
+            const array = action.payload
+            state.file = [...array, ...state.file]
         },
         HANDLE_DELETE: (state, action) => void(
             state.file = state.file.filter(file => file._id !== action.payload)

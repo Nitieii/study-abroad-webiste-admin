@@ -2,20 +2,22 @@ import { useSelector, useDispatch } from "react-redux";
 import axiosInstance from "../utils/axios";
 import { POST_API, GET_API, DELETE_API } from "../utils/api";
 import {
-    GET_POST, GET_TOTAL, HANDLE_DELETE, HANDLE_LOADING
+    GET_CULTURE, GET_TOTAL, HANDLE_DELETE, HANDLE_LOADING
 } from "../store/culSlice"
+import { GET_POST } from "../store/postSlice";
 import axios from "axios";
 
 const useCulture = () =>{
     const dispatch = useDispatch();
     const { isLoading, culture, totalPage } = useSelector(state => state.culture)
 
-    const handleGetPost = async(page, cat) => {
+    const handleGetPost = async(page, cat,type) => {
         dispatch(HANDLE_LOADING(true))
         try{
-            const res = await axiosInstance.get(GET_API({page: page, cat: cat}).getNews)
+            const res = await axiosInstance.get(GET_API({page: page, cat: cat,type: type}).getPost)
             if(res.data.status === "success"){
                 dispatch(GET_POST(res.data.posts))
+                 dispatch(GET_CULTURE(res.data.posts));
                 dispatch(GET_TOTAL(res.data.totalPage))
             }
             dispatch(HANDLE_LOADING(false))

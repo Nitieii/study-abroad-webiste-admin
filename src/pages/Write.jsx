@@ -45,8 +45,8 @@ const Write = () => {
   const { id } = useParams();
 
   const currentPost = post.find((item) => item._id === id);
+console.log(post)
 
-  console.log(currentPost)
   const handleChange = (e) => {
     if (currentPost) {
       setFile(currentPost.thumbnail_url);
@@ -93,6 +93,7 @@ const Write = () => {
   // Disable spellcheck as component is mounted
   React.useEffect(() => {
     ref.current?.editor.root.setAttribute("spellcheck", "false");
+    
 
     if (currentPost) {
       setFile(currentPost?.thumbnail_url);
@@ -102,8 +103,14 @@ const Write = () => {
       if (currentPost.category === "thong-tin-du-hoc") {
         setDropdown(currentPost?.type);
       }
+    } else if(currentPost === undefined) {
+      setTitle("")
+      setFile("")
+      setValue("")
+      setCat(cat)
     }
-  }, []);
+  
+  }, [currentPost]);
 
   const toolbarOptions = [
     ["bold", "italic", "underline", "strike"], // toggled buttons

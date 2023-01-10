@@ -10,38 +10,44 @@ import DeleteIcon from "../img/delete.png";
 import useCulture from "../hooks/useCulture";
 import LoadingScreen from "../components/LoadingScreen";
 import { confirmAlert } from "react-confirm-alert";
+import usePost from './../hooks/usePost';
 
 
 const tabs = [
-    {
-        index: 0,
-        title: "Du học Hàn Quốc",
-    },
-    {
-        index: 1,
-        title: "Du học Đài Loan",
-    },
-    {
-        index: 2,
-        title: "Du học Trung Quốc",
-    },
-    {
-        index: 3,
-        title: "Du học Đức",
-    },
-    {
-        index: 4,
-        title: "Du học Úc",
-    },
+  {
+    index: 0,
+    title: "Du học Hàn Quốc",
+    type: "du-hoc-han-quoc",
+  },
+  {
+    index: 1,
+    title: "Du học Đài Loan",
+    type: "du-hoc-dai-loan",
+  },
+  {
+    index: 2,
+    title: "Du học Trung Quốc",
+    type: "du-hoc-trung-quoc",
+  },
+  {
+    index: 3,
+    title: "Du học Đức",
+    type: "du-hoc-duc",
+  },
+  {
+    index: 4,
+    title: "Du học Úc",
+    type: "du-hoc-uc",
+  },
 ];
 
 
 const Culture = () => {
     const { isLoading, culture, handleDeletePost, handleGetPost, totalPage } = useCulture()
-
+    const {handleChangeSetType,type} = usePost()
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [currentPage, setCurrent] = useState(1)
-
+    const cat = "van-hoa-cac-nuoc"
     const handleAlertDeleteNews = (id) => {
         confirmAlert({
             title: "Bạn có chắc muốn xóa bài?",
@@ -57,8 +63,8 @@ const Culture = () => {
         });
     };
     useEffect(() => {
-        handleGetPost(currentPage, "van-hoa-cac-nuoc")
-    }, [currentPage]);
+        handleGetPost(currentPage, "van-hoa-cac-nuoc",type)
+    }, [currentPage,type]);
     console.log(culture)
     return (
         <main id="main" data-aos="fade-up">
@@ -118,6 +124,7 @@ const Culture = () => {
                                 {tabs &&
                                     tabs.map((tab, index) => {
                                         if (index === selectedIndex) {
+                                          handleChangeSetType(tab.type)
                                             return (
                                                 <TabPanel key={index}>
                                                     {culture.map((item, index) => {
@@ -158,60 +165,86 @@ const Culture = () => {
                                                                         {item?.title}
                                                                     </Link>
 
-                                                                    <p
-                                                                        style={{
-                                                                            fontSize: 12,
-                                                                            marginBottom: 10,
-                                                                            marginTop: 5
-                                                                        }}
-                                                                    >
-                                                                        🗓️{" "}
-                                                                        {formatDistanceToNow(
-                                                                            new Date(item?.createdAt),
-                                                                            {
-                                                                                addSuffix: true,
-                                                                                locale: vi,
-                                                                            }
-                                                                        )}{" "}
-                                                                        -{" "}
-                                                                        <span
-                                                                            style={{
-                                                                                color: "#2f9931",
-                                                                                fontWeight: "bold",
-                                                                            }}
-                                                                        >
-                                                                            MK Group
-                                                                        </span>
-                                                                    </p>
-                                                                    <p
-                                                                        className="cul-content"
-                                                                        style={{ fontSize: "14px" }}
-                                                                        dangerouslySetInnerHTML={{
-                                                                            __html: item?.description,
-                                                                        }}
-                                                                    ></p>
-                                                                </div>
-                                                                <div className="edit-btn">
-                                                                    <div style={{ display: "flex" }}>
-                                                                        <Link to={`/write/${item?._id}`}>
-                                                                            <img
-                                                                                src={Edit}
-                                                                                alt="edit"
-                                                                                style={{ height: 25, marginRight: 5 }}
-                                                                            />
-                                                                        </Link>
-                                                                        <div
-                                                                            onClick={() => handleAlertDeleteNews(item?._id)}
-                                                                        >
-                                                                            <img
-                                                                                src={DeleteIcon}
-                                                                                alt="delete"
-                                                                                style={{ height: 25 }}
-                                                                            />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                              <p
+                                                                style={{
+                                                                  fontSize: 12,
+                                                                  marginBottom: 10,
+                                                                  marginTop: 5,
+                                                                }}
+                                                              >
+                                                                🗓️{" "}
+                                                                {formatDistanceToNow(
+                                                                  new Date(
+                                                                    item?.createdAt
+                                                                  ),
+                                                                  {
+                                                                    addSuffix: true,
+                                                                    locale: vi,
+                                                                  }
+                                                                )}{" "}
+                                                                -{" "}
+                                                                <span
+                                                                  style={{
+                                                                    color:
+                                                                      "#2f9931",
+                                                                    fontWeight:
+                                                                      "bold",
+                                                                  }}
+                                                                >
+                                                                  MK Group
+                                                                </span>
+                                                              </p>
+                                                              <p
+                                                                className="cul-content"
+                                                                style={{
+                                                                  fontSize:
+                                                                    "14px",
+                                                                }}
+                                                                dangerouslySetInnerHTML={{
+                                                                  __html:
+                                                                    item?.description,
+                                                                }}
+                                                              ></p>
                                                             </div>
+                                                            <div className="edit-btn">
+                                                              <div
+                                                                style={{
+                                                                  display:
+                                                                    "flex",
+                                                                }}
+                                                              >
+                                                                <Link
+                                                                  to={`/write/${item?._id}`}
+                                                                >
+                                                                  <img
+                                                                    src={Edit}
+                                                                    alt="edit"
+                                                                    style={{
+                                                                      height: 25,
+                                                                      marginRight: 5,
+                                                                    }}
+                                                                  />
+                                                                </Link>
+                                                                <div
+                                                                  onClick={() =>
+                                                                    handleAlertDeleteNews(
+                                                                      item?._id
+                                                                    )
+                                                                  }
+                                                                >
+                                                                  <img
+                                                                    src={
+                                                                      DeleteIcon
+                                                                    }
+                                                                    alt="delete"
+                                                                    style={{
+                                                                      height: 25,
+                                                                    }}
+                                                                  />
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
                                                         );
                                                     })}
                                                 </TabPanel>

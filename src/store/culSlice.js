@@ -10,7 +10,7 @@ const Slice = createSlice({
   name: "culture",
   initialState: initialState,
   reducers: {
-    GET_POST: (state, action) => {
+    GET_CULTURE: (state, action) => {
       state.culture = action.payload;
     },
     HANDLE_LOADING: (state, action) => {
@@ -28,5 +28,5 @@ const Slice = createSlice({
 
 const { actions, reducer } = Slice;
 
-export const { GET_POST, HANDLE_LOADING, GET_TOTAL, HANDLE_DELETE } = actions;
+export const { GET_CULTURE, HANDLE_LOADING, GET_TOTAL, HANDLE_DELETE } = actions;
 export default reducer;

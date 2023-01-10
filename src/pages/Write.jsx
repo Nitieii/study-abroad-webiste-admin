@@ -72,7 +72,7 @@ console.log(post)
         return;
       } else {
         if (currentPost) {
-          handleEditPost(currentPost._id, formData);
+          handleEditPost(currentPost._id, formData, currentPost.category);
           // handleSubmit();
         } else {
           handleCreatePost(formData);
@@ -206,7 +206,7 @@ console.log(post)
               <h1>Đề mục</h1>
               <div className="WrapCat">
                 <div className="cat">
-                  <div className="dropdown">
+                  <div className="dropdown" style={{display:'flex'}}>
                     <div>
                       <input
                         type="radio"
@@ -216,15 +216,18 @@ console.log(post)
                         id="art"
                         onChange={(e) => setCat(e.target.value)}
                       />
+
+                    </div>
+                    <div style={{marginLeft:2}}> 
                       <label htmlFor="art">Thông tin du học</label>
+                      <ReactDropdown
+                        className="dropdownOptions"
+                        options={DropdownOptions}
+                        value={dropdownOption}
+                        onChange={(e) => setDropdown(e.value)}
+                      />
                     </div>
 
-                    <ReactDropdown
-                      className="dropdownOptions"
-                      options={DropdownOptions}
-                      value={dropdownOption}
-                      onChange={(e) => setDropdown(e.value)}
-                    />
                   </div>
                 </div>
                 <div className="cat">

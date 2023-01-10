@@ -6,6 +6,7 @@ import {
   GET_POST,
   HANDLE_SET_TYPE,
   GET_TOTALPAGE,
+  DELETE_POST
 } from "../store/postSlice";
 import useAlert from "./useAlert";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +21,7 @@ const usePost = () => {
 
   const handleGetPost = async (page, cat, type) => {
     dispatch(HANDLE_LOADING(true));
-    try { 
+    try {
       const res = await axiosInstance.get(
         GET_API({ page: page, cat: cat, type: type }).getPost
       );
@@ -58,14 +59,14 @@ const usePost = () => {
     }
   };
 
-  const handleEditPost = async (id, form) => {
+  const handleEditPost = async (id, form, cat) => {
     dispatch(HANDLE_LOADING(true));
     try {
       const res = await axiosInstance.put(UPDATE_API(id).updatePost, form);
       enqueueSnackbar("Chỉnh sửa bài viết thành công", {
         variant: "success",
       });
-      navigate("/thong-tin-du-hoc-sinh");
+      navigate(`/${cat}`);
       dispatch(HANDLE_LOADING(false));
     } catch (error) {
       console.log("error", error);
@@ -76,11 +77,10 @@ const usePost = () => {
   const handleDeletePost = async (id) => {
     dispatch(HANDLE_LOADING(true));
     try {
-      const res = await axiosInstance.delete(DELETE_API(id).deletePost);
-      if (res.data.status === "success") {
-        dispatch(HANDLE_LOADING(false));
-        handleGetPost()
-      }
+      await axiosInstance.delete(DELETE_API(id).deletePost)
+        .then(() => {
+          dispatch(DELETE_POST(id))
+        })
       dispatch(HANDLE_LOADING(false));
     } catch (error) {
       console.log("err", error);

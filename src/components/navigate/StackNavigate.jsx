@@ -45,7 +45,7 @@ const router = createBrowserRouter([
                 children: [{ path: ":id", element: <Write /> }],
             },
             {
-                path: "/thong-tin-du-hoc-sinh",
+                path: "/thong-tin-du-hoc",
                 element: <Information />,
             },
             {

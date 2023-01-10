@@ -21,7 +21,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="links">
-          <Link className="link" to="/thong-tin-du-hoc-sinh">
+          <Link className="link" to="/thong-tin-du-hoc">
             <h6>Thông tin du học</h6>
           </Link>
           <Link className="link" to="/tin-tuc">

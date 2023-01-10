@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import axiosInstance from "../utils/axios";
 import { POST_API, GET_API, DELETE_API } from "../utils/api";
-import { GET_NEWS, HANDLE_LOADING, GET_TOTALPAGE } from "../store/newSlice";
+import { GET_NEWS, HANDLE_LOADING, GET_TOTALPAGE, DELETE_NEWS } from "../store/newSlice";
 import { GET_POST } from "../store/postSlice";
 
 const useNews = () => {
@@ -19,8 +19,8 @@ const useNews = () => {
         if (page === 1) {
           dispatch(GET_NEWS(res.data.posts));
           dispatch(GET_POST(res.data.posts))
-        }else{
-          const newArray = [...news, ...res.data.posts ]
+        } else {
+          const newArray = [...news, ...res.data.posts]
           dispatch(GET_NEWS(newArray))
         }
       }
@@ -34,11 +34,11 @@ const useNews = () => {
   const handleDeleteNews = async (id) => {
     dispatch(HANDLE_LOADING(true))
     try {
-      const res = await axiosInstance.delete(DELETE_API(id).deletePost)
-      if (res.data.status === "success") {
+      await axiosInstance.delete(DELETE_API(id).deletePost)
+        .then(() => {
+          dispatch(DELETE_NEWS(id))
+        })
         dispatch(HANDLE_LOADING(false))
-        window.location.reload(true)
-      }
     } catch (e) {
       console.log(e)
       dispatch(HANDLE_LOADING(false))

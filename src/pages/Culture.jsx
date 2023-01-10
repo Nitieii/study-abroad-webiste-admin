@@ -5,6 +5,12 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { vi } from "date-fns/locale";
 import "react-tabs/style/react-tabs.css";
 import "../style/style.css"
+import Edit from "../img/edit.png";
+import DeleteIcon from "../img/delete.png";
+import useCulture from "../hooks/useCulture";
+import LoadingScreen from "../components/LoadingScreen";
+import { confirmAlert } from "react-confirm-alert";
+
 
 const tabs = [
     {
@@ -29,76 +35,34 @@ const tabs = [
     },
 ];
 
-const newsContent = [
-    {
-        _id: 1,
-        title: "Tuyển sinh du học Hàn Quốc 2022",
-        content:
-            "<p>Kỳ tuyển sinh Du học Hàn Quốc kỳ tháng 6 đã chính thức kết thúc, bây giờ là thời điểm tốt nhất để các bạn chuẩn bị hồ sơ cho kỳ tháng 9/2021 và 12/2021 du học Hàn Quốc.</p>",
-        createdAt: "2022-12-06T07:00:00.000Z",
-        thumbnail:
-            "https://todo-list-app-asdfasd.s3.amazonaws.com/z3937320398641_21cded1bb15a2dfae7684a8c05e09e66.jpg",
-    },
-    {
-        _id: 2,
-        title: "Tuyển sinh du học Hàn Quốc 2022",
-        content:
-            "<p>Kỳ tuyển sinh Du học Hàn Quốc kỳ tháng 6 đã chính thức kết thúc, bây giờ là thời điểm tốt nhất để các bạn chuẩn bị hồ sơ cho kỳ tháng 9/2021 và 12/2021 du học Hàn Quốc.</p>",
-        createdAt: "2022-12-06T07:00:00.000Z",
-        thumbnail:
-            "https://todo-list-app-asdfasd.s3.amazonaws.com/z3937320629262_7729baaac253c1a7d80a6415106e032e.jpg",
-    },
-    {
-        _id: 3,
-        title: "Tuyển sinh du học Hàn Quốc 2022",
-        content:
-            "<p>Kỳ tuyển sinh Du học Hàn Quốc kỳ tháng 6 đã chính thức kết thúc, bây giờ là thời điểm tốt nhất để các bạn chuẩn bị hồ sơ cho kỳ tháng 9/2021 và 12/2021 du học Hàn Quốc.</p>",
-        createdAt: "2022-12-06T07:00:00.000Z",
-        thumbnail:
-            "https://todo-list-app-asdfasd.s3.amazonaws.com/z3937322559207_a7104d74b5e2a6b32550656baecdb139.jpg",
-    },
-    {
-        _id: 4,
-        title: "Tuyển sinh du học Hàn Quốc 2022",
-        content:
-            "<p>Kỳ tuyển sinh Du học Hàn Quốc kỳ tháng 6 đã chính thức kết thúc, bây giờ là thời điểm tốt nhất để các bạn chuẩn bị hồ sơ cho kỳ tháng 9/2021 và 12/2021 du học Hàn Quốc.</p>",
-        createdAt: "2022-12-06T07:00:00.000Z",
-        thumbnail:
-            "https://todo-list-app-asdfasd.s3.amazonaws.com/z3937320398641_21cded1bb15a2dfae7684a8c05e09e66.jpg",
-    },
-    {
-        _id: 5,
-        title: "Tuyển sinh du học Hàn Quốc 2022",
-        content:
-            "<p>Kỳ tuyển sinh Du học Hàn Quốc kỳ tháng 6 đã chính thức kết thúc, bây giờ là thời điểm tốt nhất để các bạn chuẩn bị hồ sơ cho kỳ tháng 9/2021 và 12/2021 du học Hàn Quốc.</p>",
-        createdAt: "2022-12-06T07:00:00.000Z",
-        thumbnail:
-            "https://todo-list-app-asdfasd.s3.amazonaws.com/z3937320629262_7729baaac253c1a7d80a6415106e032e.jpg",
-    },
-    {
-        _id: 6,
-        title: "Tuyển sinh du học Hàn Quốc 2022",
-        content:
-            "<p>Kỳ tuyển sinh Du học Hàn Quốc kỳ tháng 6 đã chính thức kết thúc, bây giờ là thời điểm tốt nhất để các bạn chuẩn bị hồ sơ cho kỳ tháng 9/2021 và 12/2021 du học Hàn Quốc.</p>",
-        createdAt: "2022-12-06T07:00:00.000Z",
-        thumbnail:
-            "https://todo-list-app-asdfasd.s3.amazonaws.com/z3937322559207_a7104d74b5e2a6b32550656baecdb139.jpg",
-    },
-];
 
 const Culture = () => {
+    const { isLoading, culture, handleDeletePost, handleGetPost, totalPage } = useCulture()
+
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [loading, setLoading] = useState(true);
-    const [news, setNews] = useState([]);
+    const [currentPage, setCurrent] = useState(1)
 
-
+    const handleAlertDeleteNews = (id) => {
+        confirmAlert({
+            title: "Bạn có chắc muốn xóa bài?",
+            buttons: [
+                {
+                    label: "Đồng ý",
+                    onClick: () => handleDeletePost(id),
+                },
+                {
+                    label: "Không",
+                },
+            ],
+        });
+    };
     useEffect(() => {
-        setNews(newsContent);
-        setLoading(false);
-    }, []);
-
+        handleGetPost(currentPage, "van-hoa-cac-nuoc")
+    }, [currentPage]);
+    console.log(culture)
     return (
         <main id="main" data-aos="fade-up">
+            {isLoading ? <LoadingScreen /> : null}
             <section className="breadcrumbs">
                 <div className="container">
                     <div className="d-flex justify-content-between align-items-center">
@@ -156,7 +120,7 @@ const Culture = () => {
                                         if (index === selectedIndex) {
                                             return (
                                                 <TabPanel key={index}>
-                                                    {news.map((item, index) => {
+                                                    {culture.map((item, index) => {
                                                         return (
                                                             <div
                                                                 key={index}
@@ -165,12 +129,12 @@ const Culture = () => {
                                                                     borderBottom: "1px solid #e6e6e6",
                                                                     marginTop: 25,
                                                                     paddingBottom: 1,
-                                                                    display:"flex"
+                                                                    display: "flex"
                                                                 }}
                                                             >
                                                                 <div className="col-md-4 cul-img">
                                                                     <img
-                                                                        src={item.thumbnail}
+                                                                        src={item?.thumbnail}
                                                                         alt=""
                                                                         style={{
                                                                             width: "100%",
@@ -188,22 +152,22 @@ const Culture = () => {
                                                                             fontSize: 20,
                                                                             color: "black",
                                                                             fontWeight: 600,
-                                                                            textDecoration:'none'
+                                                                            textDecoration: 'none'
                                                                         }}
                                                                     >
-                                                                        {item.title}
+                                                                        {item?.title}
                                                                     </Link>
 
                                                                     <p
                                                                         style={{
                                                                             fontSize: 12,
                                                                             marginBottom: 10,
-                                                                            marginTop:5
+                                                                            marginTop: 5
                                                                         }}
                                                                     >
                                                                         🗓️{" "}
                                                                         {formatDistanceToNow(
-                                                                            new Date(item.createdAt),
+                                                                            new Date(item?.createdAt),
                                                                             {
                                                                                 addSuffix: true,
                                                                                 locale: vi,
@@ -223,9 +187,29 @@ const Culture = () => {
                                                                         className="cul-content"
                                                                         style={{ fontSize: "14px" }}
                                                                         dangerouslySetInnerHTML={{
-                                                                            __html: item.content,
+                                                                            __html: item?.description,
                                                                         }}
                                                                     ></p>
+                                                                </div>
+                                                                <div className="edit-btn">
+                                                                    <div style={{ display: "flex" }}>
+                                                                        <Link to={`/write/${item?._id}`}>
+                                                                            <img
+                                                                                src={Edit}
+                                                                                alt="edit"
+                                                                                style={{ height: 25, marginRight: 5 }}
+                                                                            />
+                                                                        </Link>
+                                                                        <div
+                                                                            onClick={() => handleAlertDeleteNews(item?._id)}
+                                                                        >
+                                                                            <img
+                                                                                src={DeleteIcon}
+                                                                                alt="delete"
+                                                                                style={{ height: 25 }}
+                                                                            />
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         );
@@ -254,7 +238,7 @@ const Culture = () => {
                             </Tabs>
 
                             {/* Load more button */}
-                            <div className="row ">
+                            {currentPage < totalPage ? <div className="row ">
                                 <div className="col-md-12 d-flex align-items-center justify-content-center">
                                     <button
                                         className="btn btn-primary"
@@ -270,6 +254,8 @@ const Culture = () => {
                                     </button>
                                 </div>
                             </div>
+                                : null}
+
                         </div>
 
                     </div>

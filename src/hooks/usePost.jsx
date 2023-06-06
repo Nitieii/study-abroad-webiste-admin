@@ -23,7 +23,7 @@ const usePost = () => {
     dispatch(HANDLE_LOADING(true));
     try {
       const res = await axiosInstance.get(
-        GET_API({ page: page, cat: cat, type: type }).getPost
+        GET_API({ page: page, cat: cat, type: type }).getPost,
       );
 
       if (res.data.status === "success") {
@@ -66,7 +66,7 @@ const usePost = () => {
       enqueueSnackbar("Chỉnh sửa bài viết thành công", {
         variant: "success",
       });
-      navigate(`/${cat}`);
+      navigate(`/thong-tin-du-hoc-sinh`);
       dispatch(HANDLE_LOADING(false));
     } catch (error) {
       console.log("error", error);

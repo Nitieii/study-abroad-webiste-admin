@@ -14,6 +14,7 @@ import ClampLines from "react-clamp-lines";
 import LoadingScreen from "../components/LoadingScreen";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import "../style/lineClamp.css";
 
 const tabs = [
   {
@@ -64,7 +65,6 @@ const Information = () => {
   // const getPost = () => {
   //   handleGetPost(currentPage,cat,type)
   // }
-  console.log(inforpost);
   useEffect(() => {
     let isCancelled = false;
     if (!isCancelled) {
@@ -224,6 +224,7 @@ const Information = () => {
                                       dangerouslySetInnerHTML={{
                                         __html: item?.description,
                                       }}
+                                      // style={{}}
                                     ></div>
                                   </div>
                                 </div>

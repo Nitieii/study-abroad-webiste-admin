@@ -206,7 +206,7 @@ console.log(post)
               <h1>Đề mục</h1>
               <div className="WrapCat">
                 <div className="cat">
-                  <div className="dropdown" style={{display:'flex'}}>
+                  <div className="dropdown" style={{ display: "flex" }}>
                     <div>
                       <input
                         type="radio"
@@ -216,18 +216,10 @@ console.log(post)
                         id="art"
                         onChange={(e) => setCat(e.target.value)}
                       />
-
                     </div>
-                    <div style={{marginLeft:2}}> 
+                    <div style={{ marginLeft: 2 }}>
                       <label htmlFor="art">Thông tin du học</label>
-                      <ReactDropdown
-                        className="dropdownOptions"
-                        options={DropdownOptions}
-                        value={dropdownOption}
-                        onChange={(e) => setDropdown(e.value)}
-                      />
                     </div>
-
                   </div>
                 </div>
                 <div className="cat">
@@ -259,6 +251,12 @@ console.log(post)
                   <label htmlFor="technology">Văn hoá các nước</label>
                 </div>
               </div>
+              <ReactDropdown
+                className="dropdownOptions"
+                options={DropdownOptions}
+                value={dropdownOption}
+                onChange={(e) => setDropdown(e.value)}
+              />
             </div>
           </div>
         </div>

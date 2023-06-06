@@ -2,12 +2,10 @@ import axios from "axios";
 
 const ENDPOINT = "https://blog-websit-api.onrender.com/api";
 // const ENDPOINT = 'http://localhost:8080/api'
+// const ENDPOINT = "https://dk4b6zxttxukv.cloudfront.net/api";
 
 const axiosInstance = axios.create({
   baseURL: ENDPOINT,
-  headers: {
-    "Content-type": "application/json",
-  },
 });
 
 
